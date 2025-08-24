@@ -5,12 +5,7 @@
     {{ loading ? '확인 중...' : '다음으로' }}
   </button>
 
-  <base-modal
-    v-model="isShow"
-    :btnConfirmText="'회원가입'"
-    :btnCancelText="'취소'"
-    @confirm="onConfirm"
-  >
+  <base-modal v-model="isShow" :btnConfirmText="'회원가입'" :btnCancelText="'취소'" @confirm="onConfirm">
     <template #title>알림</template>
     <template #content>[{{ email }}]해당 계정으로 회원가입을 하시겠습니까?</template>
   </base-modal>
@@ -43,8 +38,7 @@ const checkEmail = async () => {
     if (res.data.exists) {
       router.push({ name: 'login', query: { email: email.value } });
     } else {
-      // showModal
-      isShow.value = true;
+      isShow.value = true; // showModal
     }
   } catch (e) {
     console.log(e.message); // TO-DO: TOAST
@@ -59,7 +53,7 @@ const onConfirm = async () => {
     await authApi.sendSignupCode(email.value);
     router.push({ name: 'signup', query: { email: email.value } });
   } catch (error) {
-    console.log('error.message'); // TODO: TOAST
+    console.log(error.message); // TODO: TOAST
   } finally {
     appStore.hidden();
   }
