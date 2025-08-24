@@ -38,11 +38,7 @@ class ApiClient {
       async (error) => {
         const originalRequest = error.config;
 
-        if (
-          error.response?.status === 401 &&
-          !originalRequest.skipAuth &&
-          !originalRequest._retry
-        ) {
+        if (error.response?.status === 401 && !originalRequest.skipAuth && !originalRequest._retry) {
           const authStore = useAuthStore();
           originalRequest._retry = true;
 
