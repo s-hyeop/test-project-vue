@@ -1,10 +1,7 @@
 <template>
-  <the-header />
-
-  <router-view />
-
-  <the-footer />
-
+  <TheHeader />
+  <RouterView />
+  <TheFooter />
   <TheSpinner />
 </template>
 
