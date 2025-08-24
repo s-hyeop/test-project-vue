@@ -18,12 +18,14 @@
 
 <script setup>
 import { ref } from 'vue';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 import { authApi } from '@/services/authApi';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useAppStore } from '@/stores/app';
 
 const appStore = useAppStore();
+const router = useRouter();
+
 const email = ref(null);
 const loading = ref(false);
 const isShow = ref(false);
