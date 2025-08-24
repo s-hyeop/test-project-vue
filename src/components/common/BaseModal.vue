@@ -1,10 +1,10 @@
 <!-- <base-modal
   v-model="Boolean"
-  locked="Boolean"
-  showConfirm="Boolean"
-  showCancel="Boolean"
-  btnConfirmText="확인"
-  btnCancelText="취소"
+  :locked="Boolean"
+  :showConfirm="Boolean"
+  :showCancel="Boolean"
+  :btnConfirmText="확인"
+  :btnCancelText="취소"
   @confirm=""
   @cancel=""
 >
@@ -38,7 +38,7 @@
         </header>
         <section class="modal-body">
           <slot name="content"></slot>
-        </section class="modal-footer">
+        </section>
         <footer class="modal-footer">
           <button v-if="showConfirm" @click="confirm">{{ btnConfirmText }}</button>
           <button v-if="showCancel" @click="cancel">{{ btnCancelText }}</button>
@@ -71,6 +71,7 @@ const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
 
 const onBackdrop = () => {
   if (props.locked) return;
+
   cancel();
 };
 
@@ -80,13 +81,13 @@ const onEsc = () => {
 };
 
 const cancel = () => {
-  emit('cancel');
   open.value = false;
+  emit('cancel');
 };
 
 const confirm = () => {
-  emit('confirm');
   open.value = false;
+  emit('confirm');
 };
 
 // 스크롤 락 & 포커스

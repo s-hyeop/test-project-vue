@@ -7,10 +7,9 @@
 
   <base-modal
     v-model="isShow"
-    btnConfirmText="회원가입"
-    btnCancelText="취소"
+    :btnConfirmText="'회원가입'"
+    :btnCancelText="'취소'"
     @confirm="onConfirm"
-    @cancel="onCancel"
   >
     <template #title>알림</template>
     <template #content>[{{ email }}]해당 계정으로 회원가입을 하시겠습니까?</template>
@@ -42,7 +41,8 @@ const checkEmail = async () => {
     if (res.data.exists) {
       router.push({ name: 'login', query: { email: email.value } });
     } else {
-      showModal();
+      // showModal
+      isShow.value = true;
     }
   } catch (e) {
     console.log(e.message); // TO-DO: TOAST
@@ -51,24 +51,15 @@ const checkEmail = async () => {
   }
 };
 
-const showModal = () => {
-  isShow.value = true;
-};
-
 const onConfirm = async () => {
-  isShow.value = false;
   appStore.show('인증코드 전송 중...');
   try {
-    const res = await authApi.sendSignupCode(email.value);
+    await authApi.sendSignupCode(email.value);
     router.push({ name: 'signup', query: { email: email.value } });
   } catch (error) {
     console.log('error.message'); // TODO: TOAST
   } finally {
     appStore.hidden();
   }
-};
-
-const onCancel = () => {
-  isShow.value = false;
 };
 </script>
