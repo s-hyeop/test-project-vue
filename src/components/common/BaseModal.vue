@@ -60,11 +60,11 @@ const props = defineProps({
   btnCancelText: { type: String, default: '취소' },
 });
 
-const emit = defineEmits(['update:modalValue', 'confirm', 'cancel']);
+const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
 
 const open = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modalValue', value),
+  set: (value) => emit('update:modelValue', value),
 });
 const dialogRef = ref(null);
 const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
