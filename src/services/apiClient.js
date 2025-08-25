@@ -21,11 +21,9 @@ class ApiClient {
     this.axios.interceptors.request.use(
       (config) => {
         const authStore = useAuthStore();
-        console.log('1', authStore.accessToken?.value);
-        if (authStore.accessToken?.value && !config.skipAuth) {
-          console.log('2', authStore.accessToken?.value);
+        if (authStore.accessToken && !config.skipAuth) {
           config.headers = config.headers || {};
-          config.headers.Authorization = `Bearer ${authStore.accessToken.value}`;
+          config.headers.Authorization = `Bearer ${authStore.accessToken}`;
         }
         return config;
       },
@@ -64,7 +62,7 @@ class ApiClient {
 
             // 다시 요청
             originalRequest.headers = originalRequest.headers || {};
-            originalRequest.headers.Authorization = `Bearer ${authStore.accessToken.value}`;
+            originalRequest.headers.Authorization = `Bearer ${authStore.accessToken}`;
 
             // 재실행 결과 반환
             return this.axios(originalRequest);
