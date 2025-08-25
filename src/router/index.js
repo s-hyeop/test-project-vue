@@ -51,7 +51,7 @@ const router = createRouter({
 
 // filtering
 router.beforeEach((to) => {
-  const isAuthed = useAuthStore().isAuthenticated;
+  const isAuthed = useAuthStore().isAuth;
 
   if (to.meta.requiresGuest && isAuthed) {
     return { name: 'home' };
