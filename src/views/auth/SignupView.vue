@@ -1,7 +1,7 @@
 <template>
   <div>SignupView</div>
   <EmailCodeForm v-if="step === STEP_EMAIL_VERIFY" :email="email" :verifyType="'signup'" @complete="verifyComplete" />
-  <SignupForm v-if="step === STEP_SIGNUP" :email="email" :code="code" @complete="signupComplete" />
+  <SignupForm v-if="step === STEP_PROCESS" :email="email" :code="code" @complete="signupComplete" />
 </template>
 
 <script setup>
@@ -14,7 +14,7 @@ const route = useRoute();
 
 const STEP_NOT_READY = 0;
 const STEP_EMAIL_VERIFY = 1;
-const STEP_SIGNUP = 2;
+const STEP_PROCESS = 2;
 
 const step = ref(STEP_NOT_READY);
 const email = ref('');
@@ -22,7 +22,7 @@ const code = ref('');
 
 const verifyComplete = (verifyCode) => {
   code.value = verifyCode;
-  step.value = STEP_SIGNUP;
+  step.value = STEP_PROCESS;
 };
 
 const signupComplete = () => {

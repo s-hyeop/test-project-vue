@@ -20,8 +20,12 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
+
 const INPUT_LENGTH = 6;
+
+const appStore = useAppStore();
 
 const props = defineProps({
   email: { type: String, default: '' },
@@ -39,11 +43,13 @@ const inputRefs = ref([]);
 
 const code = computed(() => cells.value.join(''));
 const isComplete = computed(() => code.value.length === INPUT_LENGTH && !cells.value.includes(''));
-const title = computed(() => (props.verifyType === 'reset-password' ? '비밀번호 재설정' : '회원가입'));
+const title = computed(() => (props.verifyType === 'reset-password' ? '비밀번호 초기화' : '회원가입'));
 const email = computed(() => props.email);
 
 const onVerifyClick = async () => {
   if (!isComplete.value) return;
+  appStore.show('확인 중...');
+
   try {
     const e = email.value;
     const c = code.value;
@@ -55,6 +61,8 @@ const onVerifyClick = async () => {
     emit('complete', c);
   } catch (error) {
     console.log(error.message);
+  } finally {
+    appStore.hidden();
   }
 };
 

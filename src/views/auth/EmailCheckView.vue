@@ -1,9 +1,7 @@
 <template>
   <div>EmailCheckView</div>
   <input type="email" v-model="email" />
-  <button type="button" @click="checkEmail" :disabled="loading">
-    {{ loading ? '확인 중...' : '다음으로' }}
-  </button>
+  <button type="button" @click="checkEmail">다음으로</button>
 
   <base-modal v-model="isShow" :btnConfirmText="'회원가입'" :btnCancelText="'취소'" @confirm="onConfirm">
     <template #title>알림</template>
@@ -14,19 +12,18 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 import BaseModal from '@/components/common/BaseModal.vue';
-import { useAppStore } from '@/stores/app';
 
-const appStore = useAppStore();
 const router = useRouter();
+const appStore = useAppStore();
 
 const email = ref(null);
-const loading = ref(false);
 const isShow = ref(false);
 
 const checkEmail = async () => {
-  loading.value = true;
+  appStore.show('확인 중...');
 
   try {
     if (!email.value) {
@@ -43,7 +40,7 @@ const checkEmail = async () => {
   } catch (e) {
     console.log(e.message); // TO-DO: TOAST
   } finally {
-    loading.value = false;
+    appStore.hidden();
   }
 };
 

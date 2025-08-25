@@ -22,8 +22,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
+import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
+
+const appStore = useAppStore();
 
 const props = defineProps({
   email: { type: String, default: '' },
@@ -37,13 +40,15 @@ const confirmPassword = ref('');
 const userName = ref('');
 
 const onSignupClick = async () => {
-  // TO-DO: Vaild
-  if (password.value != confirmPassword.value) {
-    console.log('비밀번호가 일치하지 않음');
-    return;
-  }
+  appStore.show('회원가입 중...');
 
   try {
+    // TO-DO: Vaild
+    if (password.value != confirmPassword.value) {
+      console.log('비밀번호가 일치하지 않음');
+      return;
+    }
+
     const e = props.email;
     const p = password.value;
     const u = userName.value;
@@ -52,6 +57,8 @@ const onSignupClick = async () => {
     emit('complete');
   } catch (error) {
     console.log(error.message);
+  } finally {
+    appStore.hidden();
   }
 };
 </script>

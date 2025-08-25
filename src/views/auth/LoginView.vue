@@ -1,5 +1,76 @@
 <template>
   <div>LoginView</div>
+  <div>
+    <div>
+      <label>이메일</label>
+      <input type="email" :value="email" readonly />
+    </div>
+    <div>
+      <label>비밀번호</label>
+      <input type="password" v-model="password" />
+    </div>
+    <button @click="onLoginClick">로그인</button>
+    <button @click="onResetPasswordClick">비밀번호 찾기</button>
+  </div>
+
+  <base-modal v-model="isShow" :btnConfirmText="'재설정'" :btnCancelText="'취소'" @confirm="onConfirm">
+    <template #title>알림</template>
+    <template #content>[{{ email }}]해당 계정의 비밀번호를 찾으시겠습니까?</template>
+  </base-modal>
 </template>
 
-<script setup></script>
+<script setup>
+import { onBeforeMount, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useAppStore } from '@/stores/app';
+import { useAuthStore } from '@/stores/auth';
+import { authApi } from '@/services/authApi';
+import BaseModal from '@/components/common/BaseModal.vue';
+const route = useRoute();
+const router = useRouter();
+const appStore = useAppStore();
+const authStore = useAuthStore();
+
+const email = ref('');
+const password = ref('');
+const isShow = ref(false);
+
+const onLoginClick = async () => {
+  appStore.show('로그인 중...');
+
+  try {
+    const e = email.value;
+    const p = password.value;
+    const response = await authApi.login(e, p);
+    authStore.setToken(response.data.token);
+    router.push({ name: 'home' });
+  } catch (error) {
+    console.log(error.message);
+  } finally {
+    appStore.hidden();
+  }
+};
+
+const onResetPasswordClick = async () => (isShow.value = true);
+
+const onConfirm = async () => {
+  appStore.show('인증코드 전송 중...');
+  try {
+    await authApi.sendResetPasswordCode(email.value);
+    router.push({ name: 'reset-password', query: { email: email.value } });
+  } catch (error) {
+    console.log(error.message); // TODO: TOAST
+  } finally {
+    appStore.hidden();
+  }
+};
+
+onBeforeMount(() => {
+  // TO-DO: 이메일 형식 검증
+  if (!route.query.email) {
+    router.push({ name: 'email-check' });
+  } else {
+    email.value = route.query.email;
+  }
+});
+</script>
