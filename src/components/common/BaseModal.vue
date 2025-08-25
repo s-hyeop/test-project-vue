@@ -62,12 +62,17 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
 
+// ==================================================
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
+
 const dialogRef = ref(null);
 const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+
+// ==================================================
 
 const onBackdrop = () => {
   if (props.locked) return;
@@ -90,14 +95,16 @@ const confirm = () => {
   emit('confirm');
 };
 
+// ==================================================
+
 // 스크롤 락 & 포커스
 let prevOverflow = '';
-watch(open, (v) => {
+watch(open, (value) => {
   if (typeof document === 'undefined') return;
-  if (v) {
+  if (value) {
     prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    // 다음 틱에 포커스
+    // 모달 포커스
     requestAnimationFrame(() => {
       dialogRef.value?.focus?.();
     });

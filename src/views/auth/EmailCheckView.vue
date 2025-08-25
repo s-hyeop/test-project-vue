@@ -19,15 +19,20 @@ import BaseModal from '@/components/common/BaseModal.vue';
 const router = useRouter();
 const appStore = useAppStore();
 
+// ==================================================
+
 const email = ref(null);
 const isShow = ref(false);
+
+// ==================================================
 
 const checkEmail = async () => {
   appStore.show('확인 중...');
 
   try {
+    // TO-DO: Vaild(email[형태, 길이])
     if (!email.value) {
-      console.log('이메일을 입력해주세요.'); // TO-DO: VALID, TOAST
+      console.log('이메일을 입력해주세요.'); // TO-DO: TOAST
       return;
     }
 

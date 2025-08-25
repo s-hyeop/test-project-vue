@@ -24,7 +24,6 @@ import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 
 const INPUT_LENGTH = 6;
-
 const appStore = useAppStore();
 
 const props = defineProps({
@@ -38,6 +37,8 @@ const props = defineProps({
 
 const emit = defineEmits(['complete']);
 
+// ==================================================
+
 const cells = ref(Array.from({ length: INPUT_LENGTH }, () => ''));
 const inputRefs = ref([]);
 
@@ -45,6 +46,8 @@ const code = computed(() => cells.value.join(''));
 const isComplete = computed(() => code.value.length === INPUT_LENGTH && !cells.value.includes(''));
 const title = computed(() => (props.verifyType === 'reset-password' ? '비밀번호 초기화' : '회원가입'));
 const email = computed(() => props.email);
+
+// ==================================================
 
 const onVerifyClick = async () => {
   if (!isComplete.value) return;
@@ -93,6 +96,7 @@ const onInput = (i, event) => {
   focusAt(Math.min(k, INPUT_LENGTH - 1));
 };
 
+// 붙혀넣기
 const onPaste = (i, event) => {
   let text = (event.clipboardData || window.clipboardData).getData('text') || '';
   text = text.replace(/\D/g, '');
@@ -104,6 +108,7 @@ const onPaste = (i, event) => {
   focusAt(Math.min(last + 1, INPUT_LENGTH - 1));
 };
 
+// 이동 및 백스페이스
 const onKeydown = (i, event) => {
   const key = event.key;
   if (key === 'Backspace') {
@@ -122,6 +127,8 @@ const onKeydown = (i, event) => {
     if (i < INPUT_LENGTH - 1) focusAt(i + 1);
   }
 };
+
+// ==================================================
 
 onMounted(() => {
   const firstEmpty = cells.value.findIndex((value) => !value);

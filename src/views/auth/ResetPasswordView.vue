@@ -9,16 +9,20 @@ import { onBeforeMount, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import EmailCodeForm from '@/components/forms/EmailCodeForm.vue';
 import ResetPasswordForm from '@/components/forms/ResetPasswordForm.vue';
-const router = useRouter();
-const route = useRoute();
 
 const STEP_NOT_READY = 0;
 const STEP_EMAIL_VERIFY = 1;
 const STEP_PROCESS = 2;
+const router = useRouter();
+const route = useRoute();
+
+// ==================================================
 
 const step = ref(STEP_NOT_READY);
 const email = ref('');
 const code = ref('');
+
+// ==================================================
 
 const verifyComplete = (verifyCode) => {
   code.value = verifyCode;
@@ -29,8 +33,11 @@ const resetPasswordComplete = () => {
   router.push({ name: 'login', query: { email: email.value } });
 };
 
+// ==================================================
+
+// 화면이 렌더링 되기 전에 확인 해야 함
 onBeforeMount(() => {
-  // TO-DO: 이메일 형식 검증
+  // TO-DO: Vaild(email[형태, 길이])
   if (!route.query.email) {
     router.push({ name: 'email-check' });
   } else {

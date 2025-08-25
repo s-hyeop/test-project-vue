@@ -20,6 +20,8 @@ const router = useRouter();
 const appStore = useAppStore();
 const authStore = useAuthStore();
 
+// ==================================================
+
 const onLogout = async () => {
   appStore.show('로그아웃 중...');
 

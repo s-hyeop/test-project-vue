@@ -35,15 +35,19 @@ const props = defineProps({
 
 const emit = defineEmits(['complete']);
 
+// ==================================================
+
 const password = ref('');
 const confirmPassword = ref('');
 const userName = ref('');
+
+// ==================================================
 
 const onSignupClick = async () => {
   appStore.show('회원가입 중...');
 
   try {
-    // TO-DO: Vaild
+    // TO-DO: Vaild(닉네임[규격, 길이], 비밀번호 규격[규격, 길이])
     if (password.value != confirmPassword.value) {
       console.log('비밀번호가 일치하지 않음');
       return;

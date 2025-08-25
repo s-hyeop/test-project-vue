@@ -26,14 +26,19 @@ import { useAppStore } from '@/stores/app';
 import { useAuthStore } from '@/stores/auth';
 import { authApi } from '@/services/authApi';
 import BaseModal from '@/components/common/BaseModal.vue';
+
 const route = useRoute();
 const router = useRouter();
 const appStore = useAppStore();
 const authStore = useAuthStore();
 
+// ==================================================
+
 const email = ref('');
 const password = ref('');
 const isShow = ref(false);
+
+// ==================================================
 
 const onLoginClick = async () => {
   appStore.show('로그인 중...');
@@ -65,8 +70,11 @@ const onConfirm = async () => {
   }
 };
 
+// ==================================================
+
+// 화면이 렌더링 되기 전에 확인 해야 함
 onBeforeMount(() => {
-  // TO-DO: 이메일 형식 검증
+  // TO-DO: Vaild(email[형태, 길이])
   if (!route.query.email) {
     router.push({ name: 'email-check' });
   } else {

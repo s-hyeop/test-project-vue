@@ -14,11 +14,9 @@ export const todosApi = {
 
   getTodo: (todoId) => apiClient.get(`/todos/${todoId}`),
 
-  createTodo: (title, content, color, dueAt) =>
-    apiClient.post('/todos', { title, content, color, dueAt }),
+  createTodo: (title, content, color, dueAt) => apiClient.post('/todos', { title, content, color, dueAt }),
 
-  updateTodo: (todoId, title, content, color, dueAt, sequence) =>
-    apiClient.put(`/todos/${todoId}`, { title, content, color, dueAt, sequence }),
+  updateTodo: (todoId, title, content, color, dueAt, sequence) => apiClient.put(`/todos/${todoId}`, { title, content, color, dueAt, sequence }),
 
   patchTodo: (todoId, completed) => apiClient.patch(`/todos/${todoId}`, { completed }),
 

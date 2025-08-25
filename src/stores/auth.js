@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const accessToken = ref(Cookies.get(KEY) || null);
   const isAuth = computed(() => !!accessToken.value);
 
+  // 쿠키 반영
   watch(
     accessToken,
     (value) => {

@@ -20,6 +20,8 @@ import { useAppStore } from '@/stores/app';
 const appStore = useAppStore();
 const { loading, message } = storeToRefs(appStore);
 
+// ==================================================
+
 // 스크롤 락
 let prevOverflow = '';
 watch(
@@ -41,6 +43,8 @@ onBeforeUnmount(() => {
     document.body.style.overflow = prevOverflow || '';
   }
 });
+
+// ==================================================
 </script>
 
 <style scoped>
