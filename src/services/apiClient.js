@@ -21,7 +21,9 @@ class ApiClient {
     this.axios.interceptors.request.use(
       (config) => {
         const authStore = useAuthStore();
+        console.log('1', authStore.accessToken?.value);
         if (authStore.accessToken?.value && !config.skipAuth) {
+          console.log('2', authStore.accessToken?.value);
           config.headers = config.headers || {};
           config.headers.Authorization = `Bearer ${authStore.accessToken.value}`;
         }
