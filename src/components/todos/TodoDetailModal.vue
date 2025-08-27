@@ -77,8 +77,8 @@ watch(
     appStore.show();
 
     try {
-      const response = await todosApi.getTodo(id);
-      todo.value = response.data;
+      const res = await todosApi.getTodo(id);
+      todo.value = res.data;
     } catch (e) {
       // toast
       console.log(e.message);

@@ -117,13 +117,13 @@ watch(
     appStore.show();
 
     try {
-      const response = await todosApi.getTodo(id);
+      const res = await todosApi.getTodo(id);
 
-      updateObj.title = response.data.title;
-      updateObj.content = response.data.content;
-      updateObj.color = response.data.color;
-      updateObj.dueAt = response.data.dueAt;
-      updateObj.sequence = response.data.sequence;
+      updateObj.title = res.data.title;
+      updateObj.content = res.data.content;
+      updateObj.color = res.data.color;
+      updateObj.dueAt = res.data.dueAt;
+      updateObj.sequence = res.data.sequence;
     } catch (e) {
       // toast
       cancel();

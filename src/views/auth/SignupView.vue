@@ -71,8 +71,8 @@ const onSignup = async () => {
     const c = props.code;
     await authApi.signup(e, p, u, c);
     router.push({ name: 'login', query: { email: email.value } });
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }

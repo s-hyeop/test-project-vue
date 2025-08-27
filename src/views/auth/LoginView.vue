@@ -46,11 +46,11 @@ const onLogin = async () => {
   try {
     const e = email.value;
     const p = password.value;
-    const response = await authApi.login(e, p);
-    authStore.setToken(response.data.token);
+    const res = await authApi.login(e, p);
+    authStore.setToken(res.data.token);
     router.push({ name: 'home' });
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }
@@ -63,8 +63,8 @@ const onConfirm = async () => {
   try {
     await authApi.sendResetPasswordCode(email.value);
     router.push({ name: 'reset-password', query: { email: email.value } });
-  } catch (error) {
-    console.log(error.message); // TODO: TOAST
+  } catch (e) {
+    console.log(e.message); // TODO: TOAST
   } finally {
     appStore.hidden();
   }

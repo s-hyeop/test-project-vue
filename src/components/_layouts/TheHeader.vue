@@ -29,8 +29,8 @@ const onLogout = async () => {
     await authApi.deleteCurrentToken();
     authStore.removeToken();
     router.push({ name: 'home' });
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }

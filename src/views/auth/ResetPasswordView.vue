@@ -64,8 +64,8 @@ const onResetPassword = async () => {
     const c = code.value;
     await authApi.resetPassword(e, p, c);
     router.push({ name: 'login', query: { email: email.value } });
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }

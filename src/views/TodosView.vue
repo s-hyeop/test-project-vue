@@ -90,11 +90,11 @@ const refresh = async () => {
 
   try {
     const { status, searchType, keyword, page, size } = filter;
-    const response = await todosApi.getTodos({ status, searchType, keyword, page, size });
-    total.value = response.data.totalCount;
-    todos.value = response.data.list;
-  } catch (error) {
-    console.log(error.message);
+    const res = await todosApi.getTodos({ status, searchType, keyword, page, size });
+    total.value = res.data.totalCount;
+    todos.value = res.data.list;
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }
@@ -106,8 +106,8 @@ const onToggle = async (todoId, completed) => {
   try {
     await todosApi.patchTodo(todoId, completed);
     refresh();
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }

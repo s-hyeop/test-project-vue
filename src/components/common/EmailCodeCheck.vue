@@ -61,8 +61,8 @@ const onVerify = async () => {
       await authApi.verifyResetPasswordCode(e, c);
     }
     emit('complete', c);
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   } finally {
     appStore.hidden();
   }

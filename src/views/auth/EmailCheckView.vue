@@ -54,8 +54,8 @@ const onConfirm = async () => {
   try {
     await authApi.sendSignupCode(email.value);
     router.push({ name: 'signup', query: { email: email.value } });
-  } catch (error) {
-    console.log(error.message); // TODO: TOAST
+  } catch (e) {
+    console.log(e.message); // TODO: TOAST
   } finally {
     appStore.hidden();
   }

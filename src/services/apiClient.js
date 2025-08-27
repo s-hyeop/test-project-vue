@@ -28,17 +28,17 @@ class ApiClient {
         return config;
       },
 
-      (error) => {
-        return Promise.reject(error);
+      (e) => {
+        return Promise.reject(e);
       },
     );
 
     this.axios.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const originalRequest = error.config;
+      (res) => res,
+      async (e) => {
+        const originalRequest = e.config;
 
-        if (error.response?.status === 401 && !originalRequest.skipAuth && !originalRequest._retry) {
+        if (e.response?.status === 401 && !originalRequest.skipAuth && !originalRequest._retry) {
           const authStore = useAuthStore();
           originalRequest._retry = true;
 
@@ -74,11 +74,11 @@ class ApiClient {
           }
         }
 
-        const errorMessage = error.response?.data?.message || 'API 요청에 실패했습니다.';
+        const errorMessage = e.response?.data?.message || 'API 요청에 실패했습니다.';
         return Promise.reject(
           Object.assign(new Error(errorMessage), {
-            status: error.response?.status,
-            data: error.response?.data,
+            status: e.response?.status,
+            data: e.response?.data,
           }),
         );
       },
