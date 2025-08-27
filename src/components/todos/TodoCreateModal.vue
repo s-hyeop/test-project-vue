@@ -106,7 +106,6 @@ watch(
     if (typeof document === 'undefined') return;
     if (!document.body) return;
     document.body.classList.toggle('modal-scrren', v);
-    console.log('??');
   },
   { immediate: true },
 );

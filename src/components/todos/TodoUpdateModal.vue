@@ -122,6 +122,9 @@ watch(
       updateObj.color = response.data.color;
       updateObj.dueAt = response.data.dueAt;
       updateObj.sequence = response.data.sequence;
+    } catch (e) {
+      // toast
+      cancel();
     } finally {
       appStore.hidden();
     }
@@ -135,7 +138,6 @@ watch(
     if (typeof document === 'undefined') return;
     if (!document.body) return;
     document.body.classList.toggle('modal-scrren', v);
-    console.log('??');
   },
   { immediate: true },
 );

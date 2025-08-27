@@ -30,6 +30,7 @@
         v-for="item in todos"
         :key="item.todoId"
         :todo="item"
+        @detail="onDetail(item.todoId)"
         @toggle="onToggle(item.todoId, $event)"
         @update="onUpdate(item.todoId)"
         @delete="onDelete(item.todoId)"
@@ -41,6 +42,9 @@
     <!-- show create modal button -->
     <button @click="onCreate">작성</button>
   </div>
+  <!-- detail modal -->
+  <TodoDetailModal v-if="showDetailModal" v-model="showDetailModal" :id="activeId" />
+
   <!-- create modal -->
   <TodoCreateModal v-if="showCreateModal" v-model="showCreateModal" @confirm="refresh" />
 
@@ -58,6 +62,7 @@ import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
 import Pagination from '@/components/common/Pagination.vue';
 import TodoItem from '@/components/todos/TodoItem.vue';
+import TodoDetailModal from '@/components/todos/TodoDetailModal.vue';
 import TodoCreateModal from '@/components/todos/TodoCreateModal.vue';
 import TodoUpdateModal from '@/components/todos/TodoUpdateModal.vue';
 import TodoDeleteModal from '@/components/todos/TodoDeleteModal.vue';
@@ -75,6 +80,7 @@ const filter = reactive({
 const todos = ref([]);
 const total = ref(0);
 const activeId = ref(null);
+const showDetailModal = ref(false);
 const showCreateModal = ref(false);
 const showUpdateModal = ref(false);
 const showDeleteModal = ref(false);
@@ -105,6 +111,11 @@ const onToggle = async (todoId, completed) => {
   } finally {
     appStore.hidden();
   }
+};
+
+const onDetail = (todoId) => {
+  activeId.value = todoId;
+  showDetailModal.value = true;
 };
 
 const onCreate = () => {
