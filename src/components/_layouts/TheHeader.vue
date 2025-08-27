@@ -29,6 +29,7 @@ const onLogout = async () => {
   try {
     await authApi.deleteCurrentToken();
     authStore.removeToken();
+    toast.warning('로그아웃이 완료되었습니다.');
     router.push({ name: 'home' });
   } catch (e) {
     toast.error(e.message);

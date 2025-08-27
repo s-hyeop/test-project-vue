@@ -81,6 +81,7 @@ const onResetPassword = async () => {
 onBeforeMount(() => {
   // TO-DO: Vaild(email[형태, 길이])
   if (!route.query.email) {
+    toast.warning('잘못된 접근입니다.');
     router.push({ name: 'email-check' });
   } else {
     email.value = route.query.email;
