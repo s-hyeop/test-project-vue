@@ -64,6 +64,8 @@ const onBackdrop = () => cancel();
 
 const onEsc = () => cancel();
 
+const close = () => cancel();
+
 const cancel = () => (open.value = false);
 
 // ==================================================

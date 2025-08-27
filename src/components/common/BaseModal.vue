@@ -85,6 +85,11 @@ const onEsc = () => {
   cancel();
 };
 
+const close = () => {
+  if (props.locked) return;
+  cancel();
+};
+
 const cancel = () => {
   open.value = false;
   emit('cancel');
