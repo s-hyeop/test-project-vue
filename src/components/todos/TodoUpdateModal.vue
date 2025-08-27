@@ -1,17 +1,3 @@
-<!-- <base-modal
-  v-model="Boolean"
-  :locked="Boolean"
-  :showConfirm="Boolean"
-  :showCancel="Boolean"
-  :btnConfirmText="확인"
-  :btnCancelText="취소"
-  @confirm=""
-  @cancel=""
->
-  <template #title></template>
-  <template #content></template>
-</base-modal> -->
-
 <template>
   <Teleport to="body">
     <Transition name="fade">
@@ -25,23 +11,41 @@
         role="dialog"
         aria-modal="true"
         :aria-labelledby="titleId"
+        :aria-describedby="contentId"
         ref="dialogRef"
         @keydown.esc.stop.prevent="onEsc"
         @click.stop
         tabindex="-1"
       >
         <header class="modal-header">
-          <div class="modal-title">
-            <slot name="title"></slot>
-          </div>
+          <div class="modal-title">TODO 수정</div>
           <button @click="close">X</button>
         </header>
-        <section class="modal-body">
-          <slot name="content"></slot>
+        <section class="modal-body" :id="contentId">
+          <div>
+            <label for="">제목</label>
+            <input type="text" v-model="updateObj.title" />
+          </div>
+          <div>
+            <label for="">내용</label>
+            <textarea v-model="updateObj.content"></textarea>
+          </div>
+          <div>
+            <label for="">마감일</label>
+            <input type="date" v-model="updateObj.dueAt" />
+          </div>
+          <div>
+            <label for="">색상</label>
+            <input type="text" v-model="updateObj.color" />
+          </div>
+          <div>
+            <label for="">순서</label>
+            <input type="text" v-model="updateObj.sequence" />
+          </div>
         </section>
         <footer class="modal-footer">
-          <button v-if="showConfirm" @click="confirm">{{ btnConfirmText }}</button>
-          <button v-if="showCancel" @click="cancel">{{ btnCancelText }}</button>
+          <button @click="confirm" :disabled="submitting">{{ submitting ? '수정 중...' : '수정' }}</button>
+          <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
       </div>
     </Transition>
@@ -49,18 +53,18 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { useAppStore } from '@/stores/app';
+import { todosApi } from '@/services/todosApi';
+
+const appStore = useAppStore();
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false }, // Modal Show
-  locked: { type: Boolean, default: false },
-  showConfirm: { type: Boolean, default: true },
-  showCancel: { type: Boolean, default: true },
-  btnConfirmText: { type: String, default: '확인' },
-  btnCancelText: { type: String, default: '취소' },
+  id: { type: String, required: true },
 });
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
+const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
@@ -70,32 +74,60 @@ const open = computed({
 });
 
 const dialogRef = ref(null);
+const submitting = ref(false);
 const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const updateObj = reactive({ title: '', content: '', color: '', dueAt: '', sequence: '' });
 
 // ==================================================
 
-const onBackdrop = () => {
-  if (props.locked) return;
+const onBackdrop = () => cancel();
 
-  cancel();
-};
+const onEsc = () => cancel();
 
-const onEsc = () => {
-  if (props.locked) return;
-  cancel();
-};
+const cancel = () => (open.value = false);
 
-const cancel = () => {
-  open.value = false;
-  emit('cancel');
-};
+const confirm = async () => {
+  if (submitting.value) return;
+  submitting.value = true;
 
-const confirm = () => {
-  open.value = false;
-  emit('confirm');
+  try {
+    const { title, content, color, dueAt, sequence } = updateObj;
+
+    // TO-DO: 유효성 검사.
+
+    await todosApi.updateTodo(props.id, title, content, color, dueAt, sequence);
+    emit('confirm');
+    open.value = false;
+  } catch (e) {
+    console.log(e.message); // TO-DO: TOAST
+  } finally {
+    submitting.value = false;
+  }
 };
 
 // ==================================================
+
+watch(
+  () => [open.value, props.id],
+  async ([isOpen, id], _) => {
+    if (!isOpen || !id) return;
+    appStore.show();
+
+    try {
+      const response = await todosApi.getTodo(id);
+
+      updateObj.title = response.data.title;
+      updateObj.content = response.data.content;
+      updateObj.color = response.data.color;
+      updateObj.dueAt = response.data.dueAt;
+      updateObj.sequence = response.data.sequence;
+    } finally {
+      appStore.hidden();
+    }
+  },
+  { immediate: true },
+);
 
 watch(
   open,
@@ -103,6 +135,7 @@ watch(
     if (typeof document === 'undefined') return;
     if (!document.body) return;
     document.body.classList.toggle('modal-scrren', v);
+    console.log('??');
   },
   { immediate: true },
 );

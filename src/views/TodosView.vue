@@ -22,29 +22,45 @@
         <option value="content">내용</option>
       </select>
       <input type="text" v-model="filter.keyword" placeholder="검색어를 입력하세요." />
-      <button @click="refreshTodos">검색</button>
+      <button @click="refresh">검색</button>
     </div>
 
     <div>
-      <TodoItem v-for="item in todos" :key="item.id" :todo="item" @complete="onComplete" @update="onUpdateTodo" @delete="onDeleteTodo" />
+      <TodoItem
+        v-for="item in todos"
+        :key="item.todoId"
+        :todo="item"
+        @toggle="onToggle(item.todoId, $event)"
+        @update="onUpdate(item.todoId)"
+        @delete="onDelete(item.todoId)"
+      />
     </div>
 
     <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
 
     <!-- show create modal button -->
+    <button @click="onCreate">작성</button>
   </div>
   <!-- create modal -->
+  <TodoCreateModal v-if="showCreateModal" v-model="showCreateModal" @confirm="refresh" />
+
   <!-- update modal -->
-  <!-- delete confirm modal -->
+  <TodoUpdateModal v-if="showUpdateModal" v-model="showUpdateModal" @confirm="refresh" :id="activeId" />
+
+  <!-- delete modal -->
+  <TodoDeleteModal v-if="showDeleteModal" v-model="showDeleteModal" @confirm="refresh" :id="activeId" />
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
 import Pagination from '@/components/common/Pagination.vue';
 import TodoItem from '@/components/todos/TodoItem.vue';
+import TodoCreateModal from '@/components/todos/TodoCreateModal.vue';
+import TodoUpdateModal from '@/components/todos/TodoUpdateModal.vue';
+import TodoDeleteModal from '@/components/todos/TodoDeleteModal.vue';
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -58,8 +74,12 @@ const filter = reactive({
 });
 const todos = ref([]);
 const total = ref(0);
+const activeId = ref(null);
+const showCreateModal = ref(false);
+const showUpdateModal = ref(false);
+const showDeleteModal = ref(false);
 
-const refreshTodos = async () => {
+const refresh = async () => {
   appStore.show('로딩 중...');
 
   try {
@@ -74,16 +94,37 @@ const refreshTodos = async () => {
   }
 };
 
-const onComplete = (todoId, completed) => {};
+const onToggle = async (todoId, completed) => {
+  appStore.show('');
 
-const onUpdateTodo = (todoId) => {};
+  try {
+    await todosApi.patchTodo(todoId, completed);
+    refresh();
+  } catch (error) {
+    console.log(error.message);
+  } finally {
+    appStore.hidden();
+  }
+};
 
-const onDeleteTodo = (todoId) => {};
+const onCreate = () => {
+  showCreateModal.value = true;
+};
+
+const onUpdate = (todoId) => {
+  activeId.value = todoId;
+  showUpdateModal.value = true;
+};
+
+const onDelete = (todoId) => {
+  activeId.value = todoId;
+  showDeleteModal.value = true;
+};
 
 // 초기 1회 + page/size 변경마다 재조회
 watch(
   () => [filter.page, filter.size],
-  () => refreshTodos(),
+  () => refresh(),
   { immediate: true },
 );
 

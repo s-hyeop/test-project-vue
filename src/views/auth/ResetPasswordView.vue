@@ -1,7 +1,10 @@
 <template>
   <div>ResetPasswordView</div>
-  <EmailCodeForm v-if="step === STEP_EMAIL_VERIFY" :email="email" :verifyType="'reset-password'" @complete="verifyComplete" />
-
+  <EmailCodeCheck v-if="step === STEP_EMAIL_VERIFY" :email="email" :verifyType="'reset-password'" @complete="onVerifyComplete">
+    <template #title>
+      <div>제목</div>
+    </template>
+  </EmailCodeCheck>
   <div v-show="step === STEP_PROCESS">
     <div>
       <label>이메일</label>
@@ -15,7 +18,7 @@
       <label>비밀번호 확인</label>
       <input type="password" v-model="confirmPassword" />
     </div>
-    <button @click="onResetPasswordClick">비밀번호 초기화</button>
+    <button @click="onResetPassword">비밀번호 초기화</button>
   </div>
 </template>
 
@@ -23,7 +26,7 @@
 import { onBeforeMount, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { authApi } from '@/services/authApi';
-import EmailCodeForm from '@/components/common/EmailCodeForm.vue';
+import EmailCodeCheck from '@/components/common/EmailCodeCheck.vue';
 
 const STEP_NOT_READY = 0;
 const STEP_EMAIL_VERIFY = 1;
@@ -41,12 +44,12 @@ const code = ref('');
 
 // ==================================================
 
-const verifyComplete = (verifyCode) => {
+const onVerifyComplete = (verifyCode) => {
   code.value = verifyCode;
   step.value = STEP_PROCESS;
 };
 
-const onResetPasswordClick = async () => {
+const onResetPassword = async () => {
   appStore.show('비밀번호 재설정 중...');
 
   try {

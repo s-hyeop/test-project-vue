@@ -9,8 +9,8 @@
       <label>비밀번호</label>
       <input type="password" v-model="password" />
     </div>
-    <button @click="onLoginClick">로그인</button>
-    <button @click="onResetPasswordClick">비밀번호 찾기</button>
+    <button @click="onLogin">로그인</button>
+    <button @click="onResetPassword">비밀번호 찾기</button>
   </div>
 
   <base-modal v-model="isShow" :btnConfirmText="'재설정'" :btnCancelText="'취소'" @confirm="onConfirm">
@@ -40,7 +40,7 @@ const isShow = ref(false);
 
 // ==================================================
 
-const onLoginClick = async () => {
+const onLogin = async () => {
   appStore.show('로그인 중...');
 
   try {
@@ -56,7 +56,7 @@ const onLoginClick = async () => {
   }
 };
 
-const onResetPasswordClick = async () => (isShow.value = true);
+const onResetPassword = async () => (isShow.value = true);
 
 const onConfirm = async () => {
   appStore.show('인증코드 전송 중...');

@@ -1,5 +1,5 @@
 <template>
-  <div>{{ title }} 이메일 인증</div>
+  <slot name="title"></slot>
   <div>
     <input
       v-for="(_, i) in cells"
@@ -13,7 +13,7 @@
       @keydown="onKeydown(i, $event)"
       @paste.prevent="onPaste(i, $event)"
     />
-    <button @click="onVerifyClick" :disabled="!isComplete">인증</button>
+    <button @click="onVerify" :disabled="!isComplete">인증</button>
   </div>
   <div>{{ email }}로 인증코드가 전송되었습니다.</div>
 </template>
@@ -44,12 +44,11 @@ const inputRefs = ref([]);
 
 const code = computed(() => cells.value.join(''));
 const isComplete = computed(() => code.value.length === INPUT_LENGTH && !cells.value.includes(''));
-const title = computed(() => (props.verifyType === 'reset-password' ? '비밀번호 초기화' : '회원가입'));
 const email = computed(() => props.email);
 
 // ==================================================
 
-const onVerifyClick = async () => {
+const onVerify = async () => {
   if (!isComplete.value) return;
   appStore.show('확인 중...');
 
@@ -76,8 +75,8 @@ const focusAt = (i) => {
 };
 
 // 입력시 숫자 검증
-const onInput = (i, event) => {
-  let value = event.target.value || '';
+const onInput = (i, e) => {
+  let value = e.target.value || '';
   value = value.replace(/\D/g, '');
 
   if (value.length <= 1) {
@@ -97,8 +96,8 @@ const onInput = (i, event) => {
 };
 
 // 붙혀넣기
-const onPaste = (i, event) => {
-  let text = (event.clipboardData || window.clipboardData).getData('text') || '';
+const onPaste = (i, e) => {
+  let text = (e.clipboardData || window.clipboardData).getData('text') || '';
   text = text.replace(/\D/g, '');
   if (!text) return;
 
@@ -109,10 +108,10 @@ const onPaste = (i, event) => {
 };
 
 // 이동 및 백스페이스
-const onKeydown = (i, event) => {
-  const key = event.key;
+const onKeydown = (i, e) => {
+  const key = e.key;
   if (key === 'Backspace') {
-    event.preventDefault();
+    e.preventDefault();
     if (cells.value[i]) {
       cells.value[i] = '';
     } else if (i > 0) {
@@ -120,10 +119,10 @@ const onKeydown = (i, event) => {
       cells.value[i - 1] = '';
     }
   } else if (key === 'ArrowLeft') {
-    event.preventDefault();
+    e.preventDefault();
     if (i > 0) focusAt(i - 1);
   } else if (key === 'ArrowRight') {
-    event.preventDefault();
+    e.preventDefault();
     if (i < INPUT_LENGTH - 1) focusAt(i + 1);
   }
 };

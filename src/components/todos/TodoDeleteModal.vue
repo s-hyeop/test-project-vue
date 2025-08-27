@@ -1,17 +1,3 @@
-<!-- <base-modal
-  v-model="Boolean"
-  :locked="Boolean"
-  :showConfirm="Boolean"
-  :showCancel="Boolean"
-  :btnConfirmText="확인"
-  :btnCancelText="취소"
-  @confirm=""
-  @cancel=""
->
-  <template #title></template>
-  <template #content></template>
-</base-modal> -->
-
 <template>
   <Teleport to="body">
     <Transition name="fade">
@@ -25,23 +11,20 @@
         role="dialog"
         aria-modal="true"
         :aria-labelledby="titleId"
+        :aria-describedby="contentId"
         ref="dialogRef"
         @keydown.esc.stop.prevent="onEsc"
         @click.stop
         tabindex="-1"
       >
         <header class="modal-header">
-          <div class="modal-title">
-            <slot name="title"></slot>
-          </div>
+          <div class="modal-title">경고</div>
           <button @click="close">X</button>
         </header>
-        <section class="modal-body">
-          <slot name="content"></slot>
-        </section>
+        <section class="modal-body" :id="contentId">정말 해당 TODO를 삭제하시겠습니까?</section>
         <footer class="modal-footer">
-          <button v-if="showConfirm" @click="confirm">{{ btnConfirmText }}</button>
-          <button v-if="showCancel" @click="cancel">{{ btnCancelText }}</button>
+          <button @click="confirm" :disabled="submitting">{{ submitting ? '삭제 중...' : '삭제' }}</button>
+          <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
       </div>
     </Transition>
@@ -50,17 +33,14 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { todosApi } from '@/services/todosApi';
 
 const props = defineProps({
-  modelValue: { type: Boolean, default: false }, // Modal Show
-  locked: { type: Boolean, default: false },
-  showConfirm: { type: Boolean, default: true },
-  showCancel: { type: Boolean, default: true },
-  btnConfirmText: { type: String, default: '확인' },
-  btnCancelText: { type: String, default: '취소' },
+  modelValue: { type: Boolean, default: false },
+  id: { type: String, required: true },
 });
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
+const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
@@ -70,29 +50,31 @@ const open = computed({
 });
 
 const dialogRef = ref(null);
+const submitting = ref(false);
 const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
 
 // ==================================================
 
-const onBackdrop = () => {
-  if (props.locked) return;
+const onBackdrop = () => cancel();
 
-  cancel();
-};
+const onEsc = () => cancel();
 
-const onEsc = () => {
-  if (props.locked) return;
-  cancel();
-};
+const cancel = () => (open.value = false);
 
-const cancel = () => {
-  open.value = false;
-  emit('cancel');
-};
+const confirm = async () => {
+  if (submitting.value) return;
+  submitting.value = true;
 
-const confirm = () => {
-  open.value = false;
-  emit('confirm');
+  try {
+    await todosApi.deleteTodo(props.id);
+    emit('confirm');
+    open.value = false;
+  } catch (e) {
+    console.log(e.message); // TO-DO: TOAST
+  } finally {
+    submitting.value = false;
+  }
 };
 
 // ==================================================

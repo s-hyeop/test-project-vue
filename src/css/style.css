@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+.spinner-scrren {
+  @apply overflow-hidden;
+}
+
+.modal-scrren {
+  @apply overflow-hidden;
+}

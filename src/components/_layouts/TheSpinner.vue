@@ -22,29 +22,21 @@ const { loading, message } = storeToRefs(appStore);
 
 // ==================================================
 
-// 스크롤 락
-let prevOverflow = '';
 watch(
   loading,
-  (value) => {
+  (v) => {
     if (typeof document === 'undefined') return;
-    if (value) {
-      prevOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = prevOverflow || '';
-    }
+    if (!document.body) return;
+    document.body.classList.toggle('spinner-scrren', v);
   },
   { immediate: true },
 );
 
 onBeforeUnmount(() => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = prevOverflow || '';
-  }
+  if (typeof document === 'undefined') return;
+  if (!document.body) return;
+  document.body.classList.remove('spinner-scrren');
 });
-
-// ==================================================
 </script>
 
 <style scoped>
