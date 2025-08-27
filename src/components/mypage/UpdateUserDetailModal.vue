@@ -40,6 +40,7 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { usersApi } from '@/services/usersApi';
+import { toast } from '@/plugins/toast';
 
 const appStore = useAppStore();
 
@@ -82,10 +83,11 @@ const confirm = async () => {
     // TO-DO: 유효성 검사.
 
     await usersApi.updateUser(un);
+    toast.success('회원 정보 변경이 완료되었습니다.');
     emit('confirm');
     open.value = false;
   } catch (e) {
-    console.log(e.message); // TO-DO: TOAST
+    toast.error(e.message);
   } finally {
     submitting.value = false;
   }
@@ -103,7 +105,7 @@ watch(
       const res = await usersApi.getUserDetail();
       userName.value = res.data.userName;
     } catch (e) {
-      // toast
+      toast.error(e.message);
       cancel();
     } finally {
       appStore.hidden();

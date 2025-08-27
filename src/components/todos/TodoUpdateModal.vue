@@ -56,6 +56,7 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
+import { toast } from '@/plugins/toast';
 
 const appStore = useAppStore();
 
@@ -99,10 +100,11 @@ const confirm = async () => {
     // TO-DO: 유효성 검사.
 
     await todosApi.updateTodo(props.id, title, content, color, dueAt, sequence);
+    toast.success('TODO가 수정되었습니다.');
     emit('confirm');
     open.value = false;
   } catch (e) {
-    console.log(e.message); // TO-DO: TOAST
+    toast.error(e.message);
   } finally {
     submitting.value = false;
   }
@@ -125,7 +127,7 @@ watch(
       updateObj.dueAt = res.data.dueAt;
       updateObj.sequence = res.data.sequence;
     } catch (e) {
-      // toast
+      toast.error(e.message);
       cancel();
     } finally {
       appStore.hidden();

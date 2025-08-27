@@ -60,6 +60,7 @@ import { onBeforeMount, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
+import { toast } from '@/plugins/toast';
 import Pagination from '@/components/common/Pagination.vue';
 import TodoItem from '@/components/todos/TodoItem.vue';
 import TodoDetailModal from '@/components/todos/TodoDetailModal.vue';
@@ -94,7 +95,7 @@ const refresh = async () => {
     total.value = res.data.totalCount;
     todos.value = res.data.list;
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }
@@ -105,9 +106,10 @@ const onToggle = async (todoId, completed) => {
 
   try {
     await todosApi.patchTodo(todoId, completed);
+    toast.success(`TODO가 ${completed ? '완료' : '미완료'}되었습니다.`);
     refresh();
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

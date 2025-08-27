@@ -31,6 +31,8 @@
 import { onBeforeMount, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
+import { useAppStore } from '@/stores/app';
 import EmailCodeCheck from '@/components/common/EmailCodeCheck.vue';
 
 const STEP_NOT_READY = 0;
@@ -38,6 +40,7 @@ const STEP_EMAIL_VERIFY = 1;
 const STEP_PROCESS = 2;
 const router = useRouter();
 const route = useRoute();
+const appStore = useAppStore();
 
 // ==================================================
 
@@ -65,14 +68,15 @@ const onSignup = async () => {
       return;
     }
 
-    const e = props.email;
+    const e = email.value;
     const p = password.value;
     const u = userName.value;
-    const c = props.code;
+    const c = code.value;
     await authApi.signup(e, p, u, c);
+    toast.success('회원가입 성공! 환영합니다!');
     router.push({ name: 'login', query: { email: email.value } });
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

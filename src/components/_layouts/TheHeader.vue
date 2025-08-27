@@ -15,6 +15,7 @@ import { useRouter } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { useAuthStore } from '@/stores/auth';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
 
 const router = useRouter();
 const appStore = useAppStore();
@@ -30,7 +31,7 @@ const onLogout = async () => {
     authStore.removeToken();
     router.push({ name: 'home' });
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

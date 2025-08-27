@@ -14,6 +14,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
 import BaseModal from '@/components/common/BaseModal.vue';
 
 const router = useRouter();
@@ -43,7 +44,7 @@ const checkEmail = async () => {
       isShow.value = true; // showModal
     }
   } catch (e) {
-    console.log(e.message); // TO-DO: TOAST
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }
@@ -53,9 +54,10 @@ const onConfirm = async () => {
   appStore.show('인증코드 전송 중...');
   try {
     await authApi.sendSignupCode(email.value);
+    toast.success(`인증코드가 ${email.value}로 전송되었습니다.`);
     router.push({ name: 'signup', query: { email: email.value } });
   } catch (e) {
-    console.log(e.message); // TODO: TOAST
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

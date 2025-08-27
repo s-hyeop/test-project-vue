@@ -18,7 +18,7 @@
       <label>비밀번호 확인</label>
       <input type="password" v-model="confirmPassword" />
     </div>
-    <button @click="onResetPassword">비밀번호 초기화</button>
+    <button @click="onResetPassword">비밀번호 재설정</button>
   </div>
 </template>
 
@@ -26,6 +26,8 @@
 import { onBeforeMount, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
+import { useAppStore } from '@/stores/app';
 import EmailCodeCheck from '@/components/common/EmailCodeCheck.vue';
 
 const STEP_NOT_READY = 0;
@@ -33,6 +35,7 @@ const STEP_EMAIL_VERIFY = 1;
 const STEP_PROCESS = 2;
 const router = useRouter();
 const route = useRoute();
+const appStore = useAppStore();
 
 // ==================================================
 
@@ -63,9 +66,10 @@ const onResetPassword = async () => {
     const p = password.value;
     const c = code.value;
     await authApi.resetPassword(e, p, c);
+    toast.success('비밀번호가 정상적으로 재설정되었습니다.');
     router.push({ name: 'login', query: { email: email.value } });
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

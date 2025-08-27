@@ -51,6 +51,7 @@
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { todosApi } from '@/services/todosApi';
+import { toast } from '@/plugins/toast';
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
@@ -91,10 +92,11 @@ const confirm = async () => {
     // TO-DO: 유효성 검사.
 
     await todosApi.createTodo(title, content, color, dueAt);
+    toast.success('새로운 TODO가 추가되었습니다.');
     emit('confirm');
     open.value = false;
   } catch (e) {
-    console.log(e.message); // TO-DO: TOAST
+    toast.error(e.message);
   } finally {
     submitting.value = false;
   }

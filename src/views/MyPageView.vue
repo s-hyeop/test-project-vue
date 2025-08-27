@@ -19,6 +19,7 @@ import { onBeforeMount, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { usersApi } from '@/services/usersApi';
+import { toast } from '@/plugins/toast';
 import ChangePasswordModal from '@/components/mypage/ChangePasswordModal.vue';
 import UpdateUserDetailModal from '@/components/mypage/UpdateUserDetailModal.vue';
 
@@ -35,7 +36,7 @@ const refresh = async () => {
     const res = await usersApi.getUserDetail();
     userObj.value = res.data;
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

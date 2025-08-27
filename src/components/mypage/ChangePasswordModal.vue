@@ -47,6 +47,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { usersApi } from '@/services/usersApi';
+import { toast } from '@/plugins/toast';
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
@@ -90,10 +91,11 @@ const confirm = async () => {
     // TO-DO: 유효성 검사.
 
     await usersApi.changePassword(p, cp);
+    toast.success('비밀번호 변경이 완료되었습니다.');
     emit('confirm');
     open.value = false;
   } catch (e) {
-    console.log(e.message); // TO-DO: TOAST
+    toast.error(e.message);
   } finally {
     submitting.value = false;
   }

@@ -22,6 +22,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
 
 const INPUT_LENGTH = 6;
 const appStore = useAppStore();
@@ -60,9 +61,10 @@ const onVerify = async () => {
     } else {
       await authApi.verifyResetPasswordCode(e, c);
     }
+    toast.success('이메일 인증이 완료되었습니다.');
     emit('complete', c);
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }

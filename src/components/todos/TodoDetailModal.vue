@@ -36,6 +36,7 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
+import { toast } from '@/plugins/toast';
 
 const appStore = useAppStore();
 
@@ -80,8 +81,7 @@ watch(
       const res = await todosApi.getTodo(id);
       todo.value = res.data;
     } catch (e) {
-      // toast
-      console.log(e.message);
+      toast.error(e.message);
       cancel();
     } finally {
       appStore.hidden();

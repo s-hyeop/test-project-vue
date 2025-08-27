@@ -25,6 +25,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 import { useAuthStore } from '@/stores/auth';
 import { authApi } from '@/services/authApi';
+import { toast } from '@/plugins/toast';
 import BaseModal from '@/components/common/BaseModal.vue';
 
 const route = useRoute();
@@ -48,9 +49,10 @@ const onLogin = async () => {
     const p = password.value;
     const res = await authApi.login(e, p);
     authStore.setToken(res.data.token);
+    toast.success('로그인 성공! 환영합니다!');
     router.push({ name: 'home' });
   } catch (e) {
-    console.log(e.message);
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }
@@ -62,9 +64,10 @@ const onConfirm = async () => {
   appStore.show('인증코드 전송 중...');
   try {
     await authApi.sendResetPasswordCode(email.value);
+    toast.success(`인증코드가 ${email.value}로 전송되었습니다.`);
     router.push({ name: 'reset-password', query: { email: email.value } });
   } catch (e) {
-    console.log(e.message); // TODO: TOAST
+    toast.error(e.message);
   } finally {
     appStore.hidden();
   }
