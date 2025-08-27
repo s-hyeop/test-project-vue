@@ -20,7 +20,7 @@
   <UpdateUserDetailModal v-if="showUpdateUserDetailModal" v-model="showUpdateUserDetailModal" @confirm="refresh" />
 
   <!-- remtoe logout modal -->
-  <RemoteLogoutModal v-if="showRemoteLogoutModal" v-model="showRemoteLogoutModal" @confirm="refresh" :id="remoteToken" />
+  <RemoteLogoutModal v-if="showRemoteLogoutModal" v-model="showRemoteLogoutModal" @confirm="refresh" :id="activeId" />
 </template>
 
 <script setup>
@@ -37,23 +37,23 @@ import RemoteLogoutModal from '@/components/mypage/RemoteLogoutModal.vue';
 
 const route = useRoute();
 const appStore = useAppStore();
-const userObj = ref({});
 const todoStatisticsObj = ref({});
+const userObj = ref({});
 const tokenObj = ref([]);
+const activeId = ref(null);
 const showChangePasswordModal = ref(false);
 const showUpdateUserDetailModal = ref(false);
 const showRemoteLogoutModal = ref(false);
-const remoteToken = ref(null);
 
 const refresh = async () => {
   appStore.show('로딩 중...');
 
   try {
-    const userRes = await usersApi.getUserDetail();
-    userObj.value = userRes.data;
-
     const todoRes = await todosApi.getTodoStatistics();
     todoStatisticsObj.value = todoRes.data;
+
+    const userRes = await usersApi.getUserDetail();
+    userObj.value = userRes.data;
 
     const tokenRes = await authApi.getTokens();
     tokenObj.value = tokenRes.data;
@@ -73,7 +73,7 @@ const onUpdateUserDetail = () => {
 };
 
 const onRemoteLogout = (token) => {
-  remoteToken.value = token;
+  activeId.value = token;
   showRemoteLogoutModal.value = true;
 };
 
