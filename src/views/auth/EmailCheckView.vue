@@ -1,7 +1,13 @@
 <template>
   <div>EmailCheckView</div>
-  <input type="email" v-model="email" />
-  <button type="button" @click="checkEmail">다음으로</button>
+  <Form @submit="onCheckEmail" @invalid-submit="onInvalid">
+    <div>
+      <label for="email">이메일</label>
+      <Field type="text" id="email" name="email" v-model="email" rules="rule-email" placeholder="email@example.com" autocomplete="off" />
+      <ErrorMessage name="email" />
+    </div>
+    <button type="submit">Submit</button>
+  </Form>
 
   <base-modal v-model="isShow" :btnConfirmText="'회원가입'" :btnCancelText="'취소'" @confirm="onConfirm">
     <template #title>알림</template>
@@ -12,6 +18,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 import { toast } from '@/plugins/toast';
@@ -27,7 +34,7 @@ const isShow = ref(false);
 
 // ==================================================
 
-const checkEmail = async () => {
+const onCheckEmail = async () => {
   appStore.show('확인 중...');
 
   try {
@@ -61,5 +68,9 @@ const onConfirm = async () => {
   } finally {
     appStore.hidden();
   }
+};
+
+const onInvalid = () => {
+  toast.info('입력값을 확인해주세요.');
 };
 </script>

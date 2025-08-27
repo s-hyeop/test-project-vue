@@ -4,6 +4,7 @@ import { createPinia } from 'pinia';
 import App from '@/App.vue';
 import router from '@/router';
 import ToastPlugin from '@/plugins/toast';
+import '@/plugins/validation-rules';
 
 const app = createApp(App);
 
