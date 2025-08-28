@@ -5,47 +5,39 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="contentId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">비밀번호 재설정</div>
           <button @click="close">X</button>
         </header>
         <section class="modal-body" :id="contentId">
           <div>
-            <label for="">현재 비밀번호</label>
-            <input type="password" v-model="password" />
+            <label for="password">현재 비밀번호</label>
+            <Field type="password" id="password" name="password" v-model="password" placeholder="현재 비밀번호를 입력해 주세요." autocomplete="off" />
           </div>
           <div>
-            <label for="">새로운 비밀번호</label>
-            <input type="password" v-model="newPassword" />
+            <label for="newPassword">새로운 비밀번호</label>
+            <Field type="password" id="newPassword" name="newPassword" v-model="newPassword" rules="rule-password" placeholder="새로운 비밀번호를 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="newPassword" />
           </div>
           <div>
-            <label for="">비밀번호 확인</label>
-            <input type="password" v-model="confirmPassword" />
+            <label for="confirmPassword">비밀번호 확인</label>
+            <Field type="password" id="confirmPassword" name="confirmPassword" v-model="confirmPassword" rules="rule-confirmPassword:newPassword" placeholder="비밀번호를 다시 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="confirmPassword" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button @click="confirm" :disabled="submitting">{{ submitting ? '비밀번호 변경 중...' : '비밀번호 변경' }}</button>
+          <button type="submit" :disabled="submitting">{{ submitting ? '비밀번호 변경 중...' : '비밀번호 변경' }}</button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
-      </div>
+      </Form>
     </Transition>
   </Teleport>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { usersApi } from '@/services/usersApi';
 import { toast } from '@/plugins/toast';
 
@@ -57,18 +49,18 @@ const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const dialogRef = ref(null);
+const submitting = ref(false);
+const password = ref('');
+const newPassword = ref('');
+const confirmPassword = ref('');
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
-
-const dialogRef = ref(null);
-const submitting = ref(false);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
-const password = ref('');
-const newPassword = ref('');
-const confirmPassword = ref('');
 
 // ==================================================
 
@@ -85,12 +77,7 @@ const confirm = async () => {
   submitting.value = true;
 
   try {
-    const p = password.value;
-    const np = newPassword.value;
-    const cp = confirmPassword.value;
-    // TO-DO: 유효성 검사.
-
-    await usersApi.changePassword(p, cp);
+    await usersApi.changePassword(password.value, newPassword.value);
     toast.success('비밀번호 변경이 완료되었습니다.');
     emit('confirm');
     open.value = false;
@@ -99,6 +86,10 @@ const confirm = async () => {
   } finally {
     submitting.value = false;
   }
+};
+
+const onInvalid = () => {
+  toast.info('입력값을 확인해주세요.');
 };
 
 // ==================================================

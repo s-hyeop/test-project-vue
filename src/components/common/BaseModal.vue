@@ -19,17 +19,7 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <div v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">
             <slot name="title"></slot>
@@ -52,7 +42,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
 const props = defineProps({
-  modelValue: { type: Boolean, default: false }, // Modal Show
+  modelValue: { type: Boolean, default: false },
   locked: { type: Boolean, default: false },
   showConfirm: { type: Boolean, default: true },
   showCancel: { type: Boolean, default: true },
@@ -64,19 +54,18 @@ const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
 
 // ==================================================
 
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const dialogRef = ref(null);
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
 
-const dialogRef = ref(null);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-
 // ==================================================
 
 const onBackdrop = () => {
   if (props.locked) return;
-
   cancel();
 };
 

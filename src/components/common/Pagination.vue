@@ -45,6 +45,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:page']);
 
+// ==================================================
+
 const totalPages = computed(() => {
   const tp = Math.ceil((props.total ?? 0) / (props.size || 1));
   return Math.max(1, tp);
@@ -73,6 +75,8 @@ const pages = computed(() => {
   return arr;
 });
 
+// ==================================================
+
 const pushQuery = (nextPage) => {
   const q = { ...route.query };
   q[props.pageParam] = String(nextPage);
@@ -80,12 +84,14 @@ const pushQuery = (nextPage) => {
   router.push({ query: q });
 };
 
-function go(nextPage) {
+const go = (nextPage) => {
   const clamped = Math.min(Math.max(nextPage, 1), totalPages.value);
   if (clamped === currentPage.value) return;
   emit('update:page', clamped);
   pushQuery(clamped);
-}
+};
+
+// ==================================================
 
 // URL 쿼리가 바뀌었을 때 컴포넌트도 따라가도록(뒤로가기 등)
 watch(

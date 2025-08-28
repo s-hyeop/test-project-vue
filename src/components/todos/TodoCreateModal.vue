@@ -5,51 +5,49 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="contentId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">새로운 TODO 작성</div>
           <button @click="close">X</button>
         </header>
         <section class="modal-body" :id="contentId">
           <div>
-            <label for="">제목</label>
-            <input type="text" v-model="createObj.title" />
+            <label for="todoTitle">제목</label>
+            <Field type="text" id="todoTitle" name="todoTitle" v-model="createObj.title" rules="rule-todoTitle" placeholder="제목을 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="todoTitle" />
           </div>
           <div>
-            <label for="">내용</label>
-            <textarea v-model="createObj.content"></textarea>
+            <label for="todoContent">내용</label>
+            <Field as="textarea" id="todoContent" name="todoContent" v-model="createObj.content" rules="rule-todoContent" placeholder="내용을 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="todoContent" />
           </div>
           <div>
-            <label for="">마감일</label>
-            <input type="date" v-model="createObj.dueAt" />
+            <label for="todoDueAt">마감일</label>
+            <Field type="date" id="todoDueAt" name="todoDueAt" v-model="createObj.dueAt" rules="rule-todoDueAt" placeholder="마감일을 선택해 주세요." autocomplete="off" />
+            <ErrorMessage name="todoDueAt" />
           </div>
           <div>
-            <label for="">색상</label>
-            <input type="text" v-model="createObj.color" />
+            <label for="todoColorRed">색상</label>
+            <Field type="radio" id="todoColorRed" name="todoColor" value="red" v-model="createObj.color" rules="rule-todoColor" />
+            <Field type="radio" id="todoColorRlue" name="todoColor" value="blue" v-model="createObj.color" rules="rule-todoColor" />
+            <Field type="radio" id="todoColorRreen" name="todoColor" value="green" v-model="createObj.color" rules="rule-todoColor" />
+            <Field type="radio" id="todoColorRellow" name="todoColor" value="yellow" v-model="createObj.color" rules="rule-todoColor" />
+            <Field type="radio" id="todoColorRurple" name="todoColor" value="purple" v-model="createObj.color" rules="rule-todoColor" />
+            <ErrorMessage name="todoColor" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button @click="confirm" :disabled="submitting">{{ submitting ? '작성 중...' : '작성' }}</button>
+          <button type="submit" :disabled="submitting">{{ submitting ? '작성 중...' : '작성' }}</button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
-      </div>
+      </Form>
     </Transition>
   </Teleport>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { todosApi } from '@/services/todosApi';
 import { toast } from '@/plugins/toast';
 
@@ -61,16 +59,16 @@ const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const dialogRef = ref(null);
+const submitting = ref(false);
+const createObj = reactive({ title: '', content: '', color: '', dueAt: '' });
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
-
-const dialogRef = ref(null);
-const submitting = ref(false);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
-const createObj = reactive({ title: '', content: '', color: '', dueAt: '' });
 
 // ==================================================
 
@@ -88,9 +86,6 @@ const confirm = async () => {
 
   try {
     const { title, content, color, dueAt } = createObj;
-
-    // TO-DO: 유효성 검사.
-
     await todosApi.createTodo(title, content, color, dueAt);
     toast.success('새로운 TODO가 추가되었습니다.');
     emit('confirm');
@@ -100,6 +95,10 @@ const confirm = async () => {
   } finally {
     submitting.value = false;
   }
+};
+
+const onInvalid = () => {
+  toast.info('입력값을 확인해주세요.');
 };
 
 // ==================================================

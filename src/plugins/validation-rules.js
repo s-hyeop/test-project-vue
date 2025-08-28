@@ -60,6 +60,22 @@ defineRule('rule-password', (value) => {
   return true;
 });
 
+defineRule('rule-confirmPassword', (value, params, ctx) => {
+  const targetField = params?.[0] || 'password';
+  const v = String(value ?? '');
+
+  if (isBlank(v)) {
+    return '비밀번호 확인을 입력해주세요.';
+  }
+
+  const pwd = String(ctx.form?.[targetField] ?? '');
+  if (v !== pwd) {
+    return '비밀번호가 일치하지 않습니다.';
+  }
+
+  return true;
+});
+
 // ------------------------
 //  username
 //  @NotBlank, @Size(2~30)

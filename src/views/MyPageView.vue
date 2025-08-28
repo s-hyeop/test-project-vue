@@ -37,6 +37,9 @@ import RemoteLogoutModal from '@/components/mypage/RemoteLogoutModal.vue';
 
 const route = useRoute();
 const appStore = useAppStore();
+
+// ==================================================
+
 const todoStatisticsObj = ref({});
 const userObj = ref({});
 const tokenObj = ref([]);
@@ -44,6 +47,8 @@ const activeId = ref(null);
 const showChangePasswordModal = ref(false);
 const showUpdateUserDetailModal = ref(false);
 const showRemoteLogoutModal = ref(false);
+
+// ==================================================
 
 const refresh = async () => {
   appStore.show('로딩 중...');

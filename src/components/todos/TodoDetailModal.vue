@@ -5,18 +5,7 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="contentId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <div v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">TODO</div>
           <button @click="close">X</button>
@@ -33,7 +22,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { todosApi } from '@/services/todosApi';
 import { toast } from '@/plugins/toast';
@@ -41,7 +30,7 @@ import { toast } from '@/plugins/toast';
 const appStore = useAppStore();
 
 const props = defineProps({
-  modelValue: { type: Boolean, default: false }, // Modal Show
+  modelValue: { type: Boolean, default: false },
   id: { type: String, required: true },
 });
 
@@ -49,15 +38,17 @@ const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const dialogRef = ref(null);
+const todo = ref(null);
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
 
-const dialogRef = ref(null);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
-const todo = ref(null);
+const todoId = computed(() => props.id);
 
 // ==================================================
 
@@ -78,7 +69,7 @@ watch(
     appStore.show();
 
     try {
-      const res = await todosApi.getTodo(id);
+      const res = await todosApi.getTodo(todoId.value);
       todo.value = res.data;
     } catch (e) {
       toast.error(e.message);

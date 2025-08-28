@@ -5,18 +5,7 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="contentId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <div v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">경고</div>
           <button @click="close">X</button>
@@ -45,15 +34,17 @@ const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
+const dialogRef = ref(null);
+const submitting = ref(false);
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
 
-const dialogRef = ref(null);
-const submitting = ref(false);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const rt = computed(() => props.id);
 
 // ==================================================
 
@@ -70,7 +61,7 @@ const confirm = async () => {
   submitting.value = true;
 
   try {
-    await authApi.deleteToken(props.id);
+    await authApi.deleteToken(rt.value);
     toast.success('기기가 로그아웃 되었습니다.');
     emit('confirm');
     open.value = false;

@@ -24,7 +24,6 @@ import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 import { toast } from '@/plugins/toast';
 
-const INPUT_LENGTH = 6;
 const appStore = useAppStore();
 
 const props = defineProps({
@@ -40,6 +39,7 @@ const emit = defineEmits(['complete']);
 
 // ==================================================
 
+const INPUT_LENGTH = 6;
 const cells = ref(Array.from({ length: INPUT_LENGTH }, () => ''));
 const inputRefs = ref([]);
 
@@ -54,15 +54,13 @@ const onVerify = async () => {
   appStore.show('확인 중...');
 
   try {
-    const e = email.value;
-    const c = code.value;
     if (props.verifyType === 'signup') {
-      await authApi.verifySignupCode(e, c);
+      await authApi.verifySignupCode(email.value, code.value);
     } else {
-      await authApi.verifyResetPasswordCode(e, c);
+      await authApi.verifyResetPasswordCode(email.value, code.value);
     }
     toast.success('이메일 인증이 완료되었습니다.');
-    emit('complete', c);
+    emit('complete', code.value);
   } catch (e) {
     toast.error(e.message);
   } finally {

@@ -5,39 +5,30 @@
     </Transition>
 
     <Transition name="pop">
-      <div
-        v-if="open"
-        class="modal-wrap"
-        role="dialog"
-        aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="contentId"
-        ref="dialogRef"
-        @keydown.esc.stop.prevent="onEsc"
-        @click.stop
-        tabindex="-1"
-      >
+      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
         <header class="modal-header">
           <div class="modal-title">회원 정보 변경</div>
           <button @click="close">X</button>
         </header>
         <section class="modal-body" :id="contentId">
           <div>
-            <label for="">이름</label>
-            <input type="text" v-model="userName" />
+            <label for="userName">이름</label>
+            <Field type="text" id="userName" name="userName" v-model="userName" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="userName" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button @click="confirm" :disabled="submitting">{{ submitting ? '수정 중...' : '수정' }}</button>
+          <button type="submit" :disabled="submitting">{{ submitting ? '수정 중...' : '수정' }}</button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
-      </div>
+      </Form>
     </Transition>
   </Teleport>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { useAppStore } from '@/stores/app';
 import { usersApi } from '@/services/usersApi';
 import { toast } from '@/plugins/toast';
@@ -45,23 +36,23 @@ import { toast } from '@/plugins/toast';
 const appStore = useAppStore();
 
 const props = defineProps({
-  modelValue: { type: Boolean, default: false }, // Modal Show
+  modelValue: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
 
+const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
+const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
+const dialogRef = ref(null);
+const submitting = ref(false);
+const userName = ref('');
+
 const open = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 });
-
-const dialogRef = ref(null);
-const submitting = ref(false);
-const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
-const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
-const userName = ref('');
 
 // ==================================================
 
@@ -78,11 +69,7 @@ const confirm = async () => {
   submitting.value = true;
 
   try {
-    const un = userName.value;
-
-    // TO-DO: 유효성 검사.
-
-    await usersApi.updateUser(un);
+    await usersApi.updateUser(userName.value);
     toast.success('회원 정보 변경이 완료되었습니다.');
     emit('confirm');
     open.value = false;
@@ -91,6 +78,10 @@ const confirm = async () => {
   } finally {
     submitting.value = false;
   }
+};
+
+const onInvalid = () => {
+  toast.info('입력값을 확인해주세요.');
 };
 
 // ==================================================

@@ -26,15 +26,7 @@
     </div>
 
     <div>
-      <TodoItem
-        v-for="item in todos"
-        :key="item.todoId"
-        :todo="item"
-        @detail="onDetail(item.todoId)"
-        @toggle="onToggle(item.todoId, $event)"
-        @update="onUpdate(item.todoId)"
-        @delete="onDelete(item.todoId)"
-      />
+      <TodoItem v-for="item in todos" :key="item.todoId" :todo="item" @detail="onDetail(item.todoId)" @toggle="onToggle(item.todoId, $event)" @update="onUpdate(item.todoId)" @delete="onDelete(item.todoId)" />
     </div>
 
     <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
@@ -71,6 +63,8 @@ import TodoDeleteModal from '@/components/todos/TodoDeleteModal.vue';
 const route = useRoute();
 const appStore = useAppStore();
 
+// ==================================================
+
 const filter = reactive({
   status: '',
   searchType: 'title',
@@ -85,6 +79,8 @@ const showDetailModal = ref(false);
 const showCreateModal = ref(false);
 const showUpdateModal = ref(false);
 const showDeleteModal = ref(false);
+
+// ==================================================
 
 const refresh = async () => {
   appStore.show('로딩 중...');
@@ -133,6 +129,8 @@ const onDelete = (todoId) => {
   activeId.value = todoId;
   showDeleteModal.value = true;
 };
+
+// ==================================================
 
 // 초기 1회 + page/size 변경마다 재조회
 watch(
