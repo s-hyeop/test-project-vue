@@ -7,7 +7,11 @@
         <div class="text-center">
           <h3 class="text-lg font-semibold text-white sm:text-3xl">
             {{
-              ((todoStatisticsObj.completedCount / todoStatisticsObj.totalCount) * 100).toFixed(2)
+              todoStatisticsObj.totalCount == 0
+                ? 0
+                : ((todoStatisticsObj.completedCount / todoStatisticsObj.totalCount) * 100).toFixed(
+                    2,
+                  )
             }}%
           </h3>
           <p class="mt-1 text-sm text-gray-400 sm:text-base">Total Completion Rate</p>
@@ -131,8 +135,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeMount, ref } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 import { todosApi } from '@/services/todosApi';
@@ -142,7 +145,6 @@ import ChangePasswordModal from '@/components/mypage/ChangePasswordModal.vue';
 import UpdateUserDetailModal from '@/components/mypage/UpdateUserDetailModal.vue';
 import RemoteLogoutModal from '@/components/mypage/RemoteLogoutModal.vue';
 
-const route = useRoute();
 const appStore = useAppStore();
 
 // ==================================================

@@ -61,7 +61,7 @@
         </div>
 
         <div class="mb-5">
-          <label class="mb-1 block text-sm" for="signup-username">비밀번호</label>
+          <label class="mb-1 block text-sm" for="signup-username">이름</label>
           <Field
             type="text"
             class="form-control form-control-glass w-full rounded-lg"

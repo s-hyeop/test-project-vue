@@ -1,7 +1,13 @@
 <template>
-  <section class="container-lg flex h-screen flex-wrap">
+  <section class="container-xl flex h-screen flex-wrap">
     <div class="w-full px-4 py-4 md:px-6">
       <form class="mb-2 flex w-full flex-col gap-x-2 sm:flex-row" @submit.prevent="refresh">
+        <select v-model="filter.status" class="form-select w-25">
+          <option value="">모두</option>
+          <option value="complete">완료</option>
+          <option value="incomplete">미완료</option>
+        </select>
+
         <select v-model="filter.searchType" class="form-select w-25">
           <option value="title">제목</option>
           <option value="content">내용</option>
@@ -49,7 +55,11 @@
         </select>
       </div>
 
-      <div>
+      <div v-if="todos.length === 0" class="py-8 text-center">
+        <p class="text-lg text-white/80">할 일이 없습니다.</p>
+      </div>
+
+      <div v-else class="columns-1 gap-6 sm:columns-2 lg:columns-3">
         <TodoItem
           v-for="item in todos"
           :key="item.todoId"
@@ -59,9 +69,9 @@
           @update="onUpdate(item.todoId)"
           @delete="onDelete(item.todoId)"
         />
-
-        <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
       </div>
+
+      <Pagination class="pb-10" v-model:page="filter.page" :size="filter.size" :total="total" />
     </div>
   </section>
 
@@ -181,8 +191,8 @@ const onToggle = async (todoId, completed) => {
 };
 
 const onDetail = (todoId) => {
-  activeId.value = todoId;
-  showDetailModal.value = true;
+  // activeId.value = todoId;
+  // showDetailModal.value = true;
 };
 
 const onCreate = () => {

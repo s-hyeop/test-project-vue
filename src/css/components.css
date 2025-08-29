@@ -258,6 +258,71 @@
     }
   }
 
+  /* input[type="checkbox"] */
+  .form-check-group {
+    @apply flex items-center gap-x-2;
+
+    .form-check {
+      appearance: none;
+      background-color: currentColor !important;
+
+      @apply size-4 shrink-0 rounded ring-0;
+
+      /* background */
+      @apply text-transparent checked:text-green-500;
+
+      /* border */
+      @apply border border-gray-400 focus:border-green-500 focus:ring-0 focus:outline-none;
+    }
+
+    &.form-check-sm .form-check {
+      @apply size-3.5;
+    }
+
+    &.form-check-lg .form-check {
+      @apply size-5;
+    }
+
+    .form-check:checked {
+      print-color-adjust: exact;
+      background-image: url("data:image/svg+xml,%3csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'%3e %3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/%3e %3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-size: 0.5em 0.5em;
+    }
+
+    &.form-check-sm .form-check:checked {
+      background-position: 50%;
+      background-size: 0.4em 0.4em;
+    }
+
+    &.form-check-lg .form-check:checked {
+      background-position: 50%;
+      background-size: 0.6em 0.6em;
+    }
+
+    .form-check-label {
+      @apply text-default text-sm;
+    }
+
+    &.form-check-sm .form-check-label {
+      @apply text-default text-xs;
+    }
+
+    &.form-check-lg .form-check-label {
+      @apply text-default text-base;
+    }
+
+    /* input[type="checkbox"] colors */
+    &.form-check-black .form-check {
+      /* background */
+      @apply text-transparent checked:text-black;
+
+      /* border */
+      @apply border border-gray-600 focus:border-black focus:ring-0 focus:outline-none;
+    }
+  }
+
   /* Pagination */
   .pagination {
     @apply inline-flex gap-1.5 text-center text-sm;
@@ -306,3 +371,49 @@
     }
   }
 }
+
+.todo-note {
+  @apply relative rounded-b-md bg-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.15)] ring-1 ring-white/20 backdrop-blur-md transition-all duration-300 ease-in-out hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.25)];
+
+  &.todo-note-red {
+    @apply border-l-4 border-red-400 bg-gradient-to-tr from-red-950/30 to-red-900/40;
+  }
+
+  &.todo-note-blue {
+    @apply border-l-4 border-blue-400 bg-gradient-to-tr from-blue-950/30 to-blue-900/40;
+  }
+
+  &.todo-note-green {
+    @apply border-l-4 border-green-400 bg-gradient-to-tr from-green-950/30 to-green-900/40;
+  }
+
+  &.todo-note-yellow {
+    @apply border-l-4 border-yellow-400 bg-gradient-to-tr from-yellow-950/30 to-yellow-900/40;
+  }
+
+  &.todo-note-purple {
+    @apply border-l-4 border-purple-400 bg-gradient-to-tr from-purple-950/30 to-purple-900/40;
+  }
+
+  &.todo-note-red {
+    @apply border-l-4 border-red-400 bg-gradient-to-tr from-black/30 to-black/40;
+  }
+
+  &.todo-note-blue {
+    @apply border-l-4 border-blue-400 bg-gradient-to-tr from-black/30 to-black/40;
+  }
+
+  &.todo-note-green {
+    @apply border-l-4 border-green-400 bg-gradient-to-tr from-black/30 to-black/40;
+  }
+
+  &.todo-note-yellow {
+    @apply border-l-4 border-yellow-400 bg-gradient-to-tr from-black/30 to-black/40;
+  }
+
+  &.todo-note-purple {
+    @apply border-l-4 border-purple-400 bg-gradient-to-tr from-black/30 to-black/40;
+  }
+}
+
+/* Variants: tint + left border(색상-400) */

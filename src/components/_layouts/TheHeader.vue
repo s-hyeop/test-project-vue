@@ -3,7 +3,9 @@
     <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <div class="flex-1 md:flex md:items-center md:gap-12">
-          <Router-Link class="block text-violet-200 hover:text-violet-300" to="/">TODO</Router-Link>
+          <Router-Link class="block text-lg font-bold text-violet-300 hover:text-violet-400" to="/"
+            >TODO</Router-Link
+          >
         </div>
 
         <div class="md:flex md:items-center md:gap-12">
