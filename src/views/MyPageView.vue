@@ -1,17 +1,111 @@
-<script setup></script>
 <template>
-  <div>MyPageView</div>
-  <div>{{ todoStatisticsObj }}</div>
-  <div>
-    <div>{{ userObj }}</div>
-    <button @click="onUpdateUserDetail">정보 변경</button>
-    <button @click="onChangePassword">비밀번호 변경</button>
-  </div>
+  <section class="container-lg flex flex-wrap">
+    <div
+      class="mt-4 w-full rounded-xl border border-gray-800/50 bg-linear-to-bl from-gray-800/50 via-gray-900/50 to-gray-950/50 p-4"
+    >
+      <div class="grid grid-cols-1 items-center gap-x-10 gap-y-5 sm:grid-cols-3">
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-white sm:text-3xl">
+            {{
+              ((todoStatisticsObj.completedCount / todoStatisticsObj.totalCount) * 100).toFixed(2)
+            }}%
+          </h3>
+          <p class="mt-1 text-sm text-gray-400 sm:text-base">Total Completion Rate</p>
+        </div>
 
-  <template v-for="token in tokenObj" :key="token.refreshToken">
-    <div>{{ token }}</div>
-    <button @click="onRemoteLogout(token.refreshToken)">기기 로그아웃</button>
-  </template>
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-white sm:text-3xl">
+            {{ todoStatisticsObj.todayCompletedCount }}
+          </h3>
+          <p class="mt-1 text-sm text-gray-400 sm:text-base">Today’s Completions</p>
+        </div>
+
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-white sm:text-3xl">
+            {{ todoStatisticsObj.totalCount - todoStatisticsObj.completedCount }}
+          </h3>
+          <p class="mt-1 text-sm text-gray-400 sm:text-base">Incomplete Todos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-lg flex flex-wrap">
+    <div
+      class="mt-4 w-full overflow-hidden rounded-xl border border-gray-800/50 bg-linear-to-bl from-gray-800/50 via-gray-900/50 to-gray-950/50 p-4"
+    >
+      <div
+        class="flex flex-col gap-3 border-b border-gray-900/50 px-2 pt-2 pb-4 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <h2 class="text-inverse truncate text-base font-semibold">회원 프로필</h2>
+
+        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+          <button type="button" class="btn btn-sm btn-glass" @click="onUpdateUserDetail">
+            정보 변경
+          </button>
+          <button type="button" class="btn btn-sm btn-glass" @click="onChangePassword">
+            비밀번호 변경
+          </button>
+        </div>
+      </div>
+
+      <div class="px-2 pt-4 pb-2">
+        <dl class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
+          <dt class="text-tertiary text-sm font-medium">이메일</dt>
+          <dd class="text-inversegray-100 text-sm break-words sm:col-span-2">
+            {{ userObj.email }}
+          </dd>
+
+          <dt class="text-tertiary text-sm font-medium">이름</dt>
+          <dd class="text-inversegray-100 text-sm sm:col-span-2">
+            {{ userObj.userName }}
+          </dd>
+
+          <dt class="text-tertiary text-sm font-medium">가입일</dt>
+          <dd class="text-inversegray-100 text-sm sm:col-span-2">
+            {{ formatDateTime(userObj.createdAt) }}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-lg flex flex-wrap">
+    <div
+      class="mt-4 w-full overflow-hidden rounded-xl border border-gray-800/50 bg-linear-to-bl from-gray-800/50 via-gray-900/50 to-gray-950/50 p-4"
+    >
+      <div
+        class="flex flex-col gap-3 border-b border-gray-900/50 px-2 pt-2 pb-4 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <h2 class="text-inverse truncate text-base font-semibold">접속 기기 정보</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y-1 divide-gray-900">
+          <thead class="text-left">
+            <tr class="*:text-gray-200">
+              <th class="px-3 py-2 whitespace-nowrap">기기 종료</th>
+              <th class="px-3 py-2 whitespace-nowrap">로그인 날짜</th>
+              <th class="px-3 py-2 text-end whitespace-nowrap">actions</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-900">
+            <template v-for="token in tokenObj" :key="token.refreshToken">
+              <tr class="*:text-gray-300 *:first:font-medium">
+                <td class="px-3 py-2 whitespace-nowrap">{{ token.clientOs }}</td>
+                <td class="px-3 py-2 whitespace-nowrap">{{ formatDateTime(token.createdAt) }}</td>
+                <td class="px-3 py-2 text-end whitespace-nowrap">
+                  <button class="btn btn-sm btn-glass" @click="onRemoteLogout(token.refreshToken)">
+                    로그아웃
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
   <!-- update password modal -->
   <ChangePasswordModal
@@ -93,6 +187,14 @@ const onUpdateUserDetail = () => {
 const onRemoteLogout = (token) => {
   activeId.value = token;
   showRemoteLogoutModal.value = true;
+};
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('ko-KR');
+};
+
+const formatDateTime = (dateString) => {
+  return new Date(dateString).toLocaleString('ko-KR');
 };
 
 onBeforeMount(() => {
