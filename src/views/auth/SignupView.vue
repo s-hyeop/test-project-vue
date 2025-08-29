@@ -1,36 +1,51 @@
 <template>
-  <div>SignupView</div>
   <EmailCodeCheck v-if="step === STEP_EMAIL_VERIFY" :email="email" :verifyType="'signup'" @complete="onVerifyComplete">
-    <template #title>
-      <div>제목</div>
-    </template>
+    <template #title>이메일 인증</template>
   </EmailCodeCheck>
 
-  <div v-show="step === STEP_PROCESS">
-    <Form @submit="onSubmit" @invalid-submit="onInvalid">
-      <div>
-        <label for="email">이메일</label>
-        <Field type="text" id="email" name="email" v-model="email" rules="rule-email" placeholder="email@example.com" autocomplete="off" readonly />
-        <ErrorMessage name="email" />
+  <section class="flex h-screen flex-wrap place-content-center" v-show="step === STEP_PROCESS">
+    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+      <div class="mb-6 flex flex-col items-center space-y-4">
+        <h2 class="text-2xl font-bold">회원가입</h2>
       </div>
-      <div>
-        <label for="password">비밀번호</label>
-        <Field type="password" id="password" name="password" v-model="password" rules="rule-password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
-        <ErrorMessage name="password" />
-      </div>
-      <div>
-        <label for="confirmPassword">비밀번호 확인</label>
-        <Field type="password" id="confirmPassword" name="confirmPassword" v-model="confirmPassword" rules="rule-confirmPassword:password" placeholder="비밀번호를 다시 입력해 주세요." autocomplete="off" />
-        <ErrorMessage name="confirmPassword" />
-      </div>
-      <div>
-        <label for="userName">이름</label>
-        <Field type="text" id="userName" name="userName" v-model="userName" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
-        <ErrorMessage name="userName" />
-      </div>
-      <button type="submit">회원가입</button>
-    </Form>
-  </div>
+
+      <Form @submit="onSubmit" @invalid-submit="onInvalid">
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="signup-email">이메일</label>
+          <Field type="text" class="form-control form-control-glass w-full rounded-lg" id="signup-email" name="email" v-model="email" autocomplete="off" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="signup-password">비밀번호</label>
+          <Field type="password" class="form-control form-control-glass w-full rounded-lg" id="signup-password" name="signup-password" v-model="password" rules="rule-password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
+          <ErrorMessage class="invalid-feedback" name="signup-password" />
+        </div>
+
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="signup-confirmPassword">비밀번호 확인</label>
+          <Field
+            type="password"
+            class="form-control form-control-glass w-full rounded-lg"
+            id="signup-confirmPassword"
+            name="signup-confirmPassword"
+            v-model="confirmPassword"
+            rules="rule-confirmPassword:signup-password"
+            placeholder="비밀번호를 다시 입력해 주세요."
+            autocomplete="off"
+          />
+          <ErrorMessage class="invalid-feedback" name="signup-confirmPassword" />
+        </div>
+
+        <div class="mb-5">
+          <label class="mb-1 block text-sm" for="signup-username">비밀번호</label>
+          <Field type="text" class="form-control form-control-glass w-full rounded-lg" id="signup-username" name="signup-username" v-model="username" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
+          <ErrorMessage class="invalid-feedback" name="signup-username" />
+        </div>
+
+        <button type="submit" class="btn btn-glass mt-2 w-full rounded-lg">회원가입</button>
+      </Form>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -56,7 +71,7 @@ const step = ref(STEP_NOT_READY);
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
-const userName = ref('');
+const username = ref('');
 const code = ref('');
 
 // ==================================================
@@ -70,7 +85,7 @@ const onSubmit = async () => {
   appStore.show('회원가입 중...');
 
   try {
-    await authApi.signup(email.value, password.value, userName.value, code.value);
+    await authApi.signup(email.value, password.value, username.value, code.value);
     toast.success('회원가입 성공! 환영합니다!');
     router.push({ name: 'login', query: { email: email.value } });
   } catch (e) {

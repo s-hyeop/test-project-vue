@@ -1,0 +1,20 @@
+@theme {
+  --color-default: var(--color-gray-900);
+  --color-secondary: var(--color-gray-500);
+  --color-tertiary: var(--color-gray-300);
+  --color-inverse: var(--color-white);
+
+  --animate-gradient-bg: gradient-bg 5s ease infinite;
+
+  @keyframes gradient-bg {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}

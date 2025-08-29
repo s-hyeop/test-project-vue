@@ -1,19 +1,28 @@
 <template>
-  <div>LoginView</div>
-  <Form @submit="onSubmit" @invalid-submit="onInvalid">
-    <div>
-      <label for="email">이메일</label>
-      <Field type="text" id="email" name="email" v-model="email" rules="rule-email" placeholder="email@example.com" autocomplete="off" readonly />
-      <ErrorMessage name="email" />
+  <section class="flex h-screen flex-wrap place-content-center">
+    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+      <div class="mb-6 flex flex-col items-center space-y-4">
+        <h2 class="text-2xl font-bold">로그인</h2>
+      </div>
+
+      <Form @submit="onSubmit" @invalid-submit="onInvalid">
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="login-email">이메일</label>
+          <Field type="text" class="form-control form-control-glass w-full rounded-lg" id="login-email" name="email" v-model="email" autocomplete="off" readonly />
+        </div>
+
+        <div class="mb-5">
+          <div class="mb-1 flex items-center justify-between">
+            <label class="block text-sm" for="login-password">비밀번호</label>
+            <p class="text-inverse/70 block text-sm hover:cursor-pointer hover:underline" @click="onResetPassword">비밀번호 재설정</p>
+          </div>
+          <Field type="password" class="form-control form-control-glass w-full rounded-lg" id="login-password" name="password" v-model="password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn btn-glass mt-2 w-full rounded-lg">로그인</button>
+      </Form>
     </div>
-    <div>
-      <label for="password">비밀번호</label>
-      <Field type="password" id="password" name="password" v-model="password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
-      <ErrorMessage name="password" />
-    </div>
-    <button type="submit">로그인</button>
-    <button @click="onResetPassword">비밀번호 찾기</button>
-  </Form>
+  </section>
 
   <base-modal v-if="showModal" v-model="showModal" :btnConfirmText="'재설정'" :btnCancelText="'취소'" @confirm="onResetPasswordConfirm">
     <template #title>알림</template>

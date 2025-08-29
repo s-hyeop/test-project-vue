@@ -1,0 +1,11 @@
+@layer utilities {
+  /* Spinner */
+  .spinner-scrren {
+    @apply overflow-hidden;
+  }
+
+  /* Modal */
+  .modal-scrren {
+    @apply overflow-hidden;
+  }
+}

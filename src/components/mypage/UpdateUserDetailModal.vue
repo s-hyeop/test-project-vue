@@ -12,9 +12,9 @@
         </header>
         <section class="modal-body" :id="contentId">
           <div>
-            <label for="userName">이름</label>
-            <Field type="text" id="userName" name="userName" v-model="userName" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
-            <ErrorMessage name="userName" />
+            <label for="username">이름</label>
+            <Field type="text" id="username" name="username" v-model="username" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
+            <ErrorMessage name="username" />
           </div>
         </section>
         <footer class="modal-footer">
@@ -47,7 +47,7 @@ const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
 const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
 const dialogRef = ref(null);
 const submitting = ref(false);
-const userName = ref('');
+const username = ref('');
 
 const open = computed({
   get: () => props.modelValue,
@@ -69,7 +69,7 @@ const confirm = async () => {
   submitting.value = true;
 
   try {
-    await usersApi.updateUser(userName.value);
+    await usersApi.updateUser(username.value);
     toast.success('회원 정보 변경이 완료되었습니다.');
     emit('confirm');
     open.value = false;
@@ -94,7 +94,7 @@ watch(
 
     try {
       const res = await usersApi.getUserDetail();
-      userName.value = res.data.userName;
+      username.value = res.data.username;
     } catch (e) {
       toast.error(e.message);
       cancel();

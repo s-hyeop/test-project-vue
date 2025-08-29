@@ -1,21 +1,41 @@
 <template>
-  <slot name="title"></slot>
-  <div>
-    <input
-      v-for="(_, i) in cells"
-      :key="i"
-      :ref="(el) => (inputRefs[i] = el)"
-      v-model="cells[i]"
-      maxlength="1"
-      inputmode="numeric"
-      autocomplete="one-time-code"
-      @input="onInput(i, $event)"
-      @keydown="onKeydown(i, $event)"
-      @paste.prevent="onPaste(i, $event)"
-    />
-    <button @click="onVerify" :disabled="!isComplete">인증</button>
-  </div>
-  <div>{{ email }}로 인증코드가 전송되었습니다.</div>
+  <section class="flex h-screen flex-wrap place-content-center">
+    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+      <div class="mb-6 flex flex-col items-center space-y-4">
+        <h2 class="text-2xl font-bold">
+          <slot name="title"></slot>
+        </h2>
+      </div>
+
+      <div class="mb-3">
+        <label class="mb-1 block text-sm" for="check-email">이메일</label>
+        <input type="text" class="form-control form-control-glass w-full rounded-lg" id="check-email" v-model="email" autocomplete="off" readonly />
+      </div>
+
+      <div class="mb-5">
+        <span class="mb-1 block text-sm">인증코드</span>
+        <div class="flex gap-x-2">
+          <input
+            class="form-control form-control-glass w-full rounded-lg text-center text-lg font-bold"
+            type="text"
+            v-for="(_, i) in cells"
+            :key="i"
+            :ref="(el) => (inputRefs[i] = el)"
+            v-model="cells[i]"
+            maxlength="1"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            @input="onInput(i, $event)"
+            @keydown="onKeydown(i, $event)"
+            @paste.prevent="onPaste(i, $event)"
+            name="code"
+          />
+        </div>
+      </div>
+
+      <button class="btn btn-glass mt-2 w-full rounded-lg" @click="onVerify" :disabled="!isComplete">인증</button>
+    </div>
+  </section>
 </template>
 
 <script setup>

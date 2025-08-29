@@ -1,30 +1,45 @@
 <template>
-  <div>ResetPasswordView</div>
   <EmailCodeCheck v-if="step === STEP_EMAIL_VERIFY" :email="email" :verifyType="'reset-password'" @complete="onVerifyComplete">
-    <template #title>
-      <div>제목</div>
-    </template>
+    <template #title>이메일 인증</template>
   </EmailCodeCheck>
-  <div v-show="step === STEP_PROCESS">
-    <Form @submit="onSubmit" @invalid-submit="onInvalid">
-      <div>
-        <label for="email">이메일</label>
-        <Field type="text" id="email" name="email" v-model="email" rules="rule-email" placeholder="email@example.com" autocomplete="off" readonly />
-        <ErrorMessage name="email" />
+
+  <section class="flex h-screen flex-wrap place-content-center" v-show="step === STEP_PROCESS">
+    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+      <div class="mb-6 flex flex-col items-center space-y-4">
+        <h2 class="text-2xl font-bold">비밀번호 재설절</h2>
       </div>
-      <div>
-        <label for="password">비밀번호</label>
-        <Field type="password" id="password" name="password" v-model="password" rules="rule-password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
-        <ErrorMessage name="password" />
-      </div>
-      <div>
-        <label for="confirmPassword">비밀번호 확인</label>
-        <Field type="password" id="confirmPassword" name="confirmPassword" v-model="confirmPassword" rules="rule-confirmPassword:password" placeholder="비밀번호를 다시 입력해 주세요." autocomplete="off" />
-        <ErrorMessage name="confirmPassword" />
-      </div>
-      <button type="submit">비밀번호 재설정</button>
-    </Form>
-  </div>
+
+      <Form @submit="onSubmit" @invalid-submit="onInvalid">
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="reset-email">이메일</label>
+          <Field type="text" class="form-control form-control-glass w-full rounded-lg" id="reset-email" name="email" v-model="email" autocomplete="off" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label class="mb-1 block text-sm" for="reset-password">비밀번호</label>
+          <Field type="password" class="form-control form-control-glass w-full rounded-lg" id="reset-password" name="reset-password" v-model="password" rules="rule-password" placeholder="비밀번호를 입력해 주세요." autocomplete="off" />
+          <ErrorMessage class="invalid-feedback" name="reset-password" />
+        </div>
+
+        <div class="mb-5">
+          <label class="mb-1 block text-sm" for="reset-confirmPassword">비밀번호 확인</label>
+          <Field
+            type="password"
+            class="form-control form-control-glass w-full rounded-lg"
+            id="reset-confirmPassword"
+            name="reset-confirmPassword"
+            v-model="confirmPassword"
+            rules="rule-confirmPassword:reset-password"
+            placeholder="비밀번호를 다시 입력해 주세요."
+            autocomplete="off"
+          />
+          <ErrorMessage class="invalid-feedback" name="reset-confirmPassword" />
+        </div>
+
+        <button type="submit" class="btn btn-glass mt-2 w-full rounded-lg">비밀번호 재설정</button>
+      </Form>
+    </div>
+  </section>
 </template>
 
 <script setup>
