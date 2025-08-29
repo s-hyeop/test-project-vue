@@ -5,14 +5,29 @@
     </Transition>
 
     <Transition name="pop">
-      <div v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
+      <div
+        v-if="open"
+        class="modal-wrap"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+        ref="dialogRef"
+        @keydown.esc.stop.prevent="onEsc"
+        @click.stop
+        tabindex="-1"
+      >
         <header class="modal-header">
           <div class="modal-title">경고</div>
           <button @click="close">X</button>
         </header>
-        <section class="modal-body" :id="contentId">정말 해당 기기를 로그아웃 하시겠습니까?</section>
+        <section class="modal-body" :id="contentId">
+          정말 해당 기기를 로그아웃 하시겠습니까?
+        </section>
         <footer class="modal-footer">
-          <button @click="confirm" :disabled="submitting">{{ submitting ? '로그아웃 중...' : '로그아웃' }}</button>
+          <button @click="confirm" :disabled="submitting">
+            {{ submitting ? '로그아웃 중...' : '로그아웃' }}
+          </button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
       </div>

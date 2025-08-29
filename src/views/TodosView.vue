@@ -26,7 +26,15 @@
     </div>
 
     <div>
-      <TodoItem v-for="item in todos" :key="item.todoId" :todo="item" @detail="onDetail(item.todoId)" @toggle="onToggle(item.todoId, $event)" @update="onUpdate(item.todoId)" @delete="onDelete(item.todoId)" />
+      <TodoItem
+        v-for="item in todos"
+        :key="item.todoId"
+        :todo="item"
+        @detail="onDetail(item.todoId)"
+        @toggle="onToggle(item.todoId, $event)"
+        @update="onUpdate(item.todoId)"
+        @delete="onDelete(item.todoId)"
+      />
     </div>
 
     <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
@@ -41,10 +49,20 @@
   <TodoCreateModal v-if="showCreateModal" v-model="showCreateModal" @confirm="refresh" />
 
   <!-- update modal -->
-  <TodoUpdateModal v-if="showUpdateModal" v-model="showUpdateModal" @confirm="refresh" :id="activeId" />
+  <TodoUpdateModal
+    v-if="showUpdateModal"
+    v-model="showUpdateModal"
+    @confirm="refresh"
+    :id="activeId"
+  />
 
   <!-- delete modal -->
-  <TodoDeleteModal v-if="showDeleteModal" v-model="showDeleteModal" @confirm="refresh" :id="activeId" />
+  <TodoDeleteModal
+    v-if="showDeleteModal"
+    v-model="showDeleteModal"
+    @confirm="refresh"
+    :id="activeId"
+  />
 </template>
 
 <script setup>

@@ -5,7 +5,20 @@
     </Transition>
 
     <Transition name="pop">
-      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
+      <Form
+        @submit="confirm"
+        @invalid-submit="onInvalid"
+        v-if="open"
+        class="modal-wrap"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+        ref="dialogRef"
+        @keydown.esc.stop.prevent="onEsc"
+        @click.stop
+        tabindex="-1"
+      >
         <header class="modal-header">
           <div class="modal-title">비밀번호 재설정</div>
           <button @click="close">X</button>
@@ -13,21 +26,46 @@
         <section class="modal-body" :id="contentId">
           <div>
             <label for="password">현재 비밀번호</label>
-            <Field type="password" id="password" name="password" v-model="password" placeholder="현재 비밀번호를 입력해 주세요." autocomplete="off" />
+            <Field
+              type="password"
+              id="password"
+              name="password"
+              v-model="password"
+              placeholder="현재 비밀번호를 입력해 주세요."
+              autocomplete="off"
+            />
           </div>
           <div>
             <label for="newPassword">새로운 비밀번호</label>
-            <Field type="password" id="newPassword" name="newPassword" v-model="newPassword" rules="rule-password" placeholder="새로운 비밀번호를 입력해 주세요." autocomplete="off" />
+            <Field
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              v-model="newPassword"
+              rules="rule-password"
+              placeholder="새로운 비밀번호를 입력해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="newPassword" />
           </div>
           <div>
             <label for="confirmPassword">비밀번호 확인</label>
-            <Field type="password" id="confirmPassword" name="confirmPassword" v-model="confirmPassword" rules="rule-confirmPassword:newPassword" placeholder="비밀번호를 다시 입력해 주세요." autocomplete="off" />
+            <Field
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              v-model="confirmPassword"
+              rules="rule-confirmPassword:newPassword"
+              placeholder="비밀번호를 다시 입력해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="confirmPassword" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button type="submit" :disabled="submitting">{{ submitting ? '비밀번호 변경 중...' : '비밀번호 변경' }}</button>
+          <button type="submit" :disabled="submitting">
+            {{ submitting ? '비밀번호 변경 중...' : '비밀번호 변경' }}
+          </button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
       </Form>

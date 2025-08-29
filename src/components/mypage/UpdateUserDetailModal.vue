@@ -5,7 +5,20 @@
     </Transition>
 
     <Transition name="pop">
-      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
+      <Form
+        @submit="confirm"
+        @invalid-submit="onInvalid"
+        v-if="open"
+        class="modal-wrap"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+        ref="dialogRef"
+        @keydown.esc.stop.prevent="onEsc"
+        @click.stop
+        tabindex="-1"
+      >
         <header class="modal-header">
           <div class="modal-title">회원 정보 변경</div>
           <button @click="close">X</button>
@@ -13,12 +26,22 @@
         <section class="modal-body" :id="contentId">
           <div>
             <label for="username">이름</label>
-            <Field type="text" id="username" name="username" v-model="username" rules="rule-username" placeholder="이름을 입력해 주세요." autocomplete="off" />
+            <Field
+              type="text"
+              id="username"
+              name="username"
+              v-model="username"
+              rules="rule-username"
+              placeholder="이름을 입력해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="username" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button type="submit" :disabled="submitting">{{ submitting ? '수정 중...' : '수정' }}</button>
+          <button type="submit" :disabled="submitting">
+            {{ submitting ? '수정 중...' : '수정' }}
+          </button>
           <button @click="cancel" :disabled="submitting">취소</button>
         </footer>
       </Form>

@@ -5,40 +5,130 @@
     </Transition>
 
     <Transition name="pop">
-      <Form @submit="confirm" @invalid-submit="onInvalid" v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
+      <Form
+        @submit="confirm"
+        @invalid-submit="onInvalid"
+        v-if="open"
+        class="modal-wrap"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+        ref="dialogRef"
+        @keydown.esc.stop.prevent="onEsc"
+        @click.stop
+        tabindex="-1"
+      >
         <header class="modal-header">
           <div class="modal-title">새로운 TODO 작성</div>
-          <button @click="close">X</button>
+          <button @click="close" class="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x-icon lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </header>
         <section class="modal-body" :id="contentId">
           <div>
             <label for="todoTitle">제목</label>
-            <Field type="text" id="todoTitle" name="todoTitle" v-model="createObj.title" rules="rule-todoTitle" placeholder="제목을 입력해 주세요." autocomplete="off" />
+            <Field
+              type="text"
+              id="todoTitle"
+              name="todoTitle"
+              v-model="createObj.title"
+              rules="rule-todoTitle"
+              placeholder="제목을 입력해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="todoTitle" />
           </div>
           <div>
             <label for="todoContent">내용</label>
-            <Field as="textarea" id="todoContent" name="todoContent" v-model="createObj.content" rules="rule-todoContent" placeholder="내용을 입력해 주세요." autocomplete="off" />
+            <Field
+              as="textarea"
+              id="todoContent"
+              name="todoContent"
+              v-model="createObj.content"
+              rules="rule-todoContent"
+              placeholder="내용을 입력해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="todoContent" />
           </div>
           <div>
             <label for="todoDueAt">마감일</label>
-            <Field type="date" id="todoDueAt" name="todoDueAt" v-model="createObj.dueAt" rules="rule-todoDueAt" placeholder="마감일을 선택해 주세요." autocomplete="off" />
+            <Field
+              type="date"
+              id="todoDueAt"
+              name="todoDueAt"
+              v-model="createObj.dueAt"
+              rules="rule-todoDueAt"
+              placeholder="마감일을 선택해 주세요."
+              autocomplete="off"
+            />
             <ErrorMessage name="todoDueAt" />
           </div>
           <div>
             <label for="todoColorRed">색상</label>
-            <Field type="radio" id="todoColorRed" name="todoColor" value="red" v-model="createObj.color" rules="rule-todoColor" />
-            <Field type="radio" id="todoColorRlue" name="todoColor" value="blue" v-model="createObj.color" rules="rule-todoColor" />
-            <Field type="radio" id="todoColorRreen" name="todoColor" value="green" v-model="createObj.color" rules="rule-todoColor" />
-            <Field type="radio" id="todoColorRellow" name="todoColor" value="yellow" v-model="createObj.color" rules="rule-todoColor" />
-            <Field type="radio" id="todoColorRurple" name="todoColor" value="purple" v-model="createObj.color" rules="rule-todoColor" />
+            <Field
+              type="radio"
+              id="todoColorRed"
+              name="todoColor"
+              value="red"
+              v-model="createObj.color"
+              rules="rule-todoColor"
+            />
+            <Field
+              type="radio"
+              id="todoColorRlue"
+              name="todoColor"
+              value="blue"
+              v-model="createObj.color"
+              rules="rule-todoColor"
+            />
+            <Field
+              type="radio"
+              id="todoColorRreen"
+              name="todoColor"
+              value="green"
+              v-model="createObj.color"
+              rules="rule-todoColor"
+            />
+            <Field
+              type="radio"
+              id="todoColorRellow"
+              name="todoColor"
+              value="yellow"
+              v-model="createObj.color"
+              rules="rule-todoColor"
+            />
+            <Field
+              type="radio"
+              id="todoColorRurple"
+              name="todoColor"
+              value="purple"
+              v-model="createObj.color"
+              rules="rule-todoColor"
+            />
             <ErrorMessage name="todoColor" />
           </div>
         </section>
         <footer class="modal-footer">
-          <button type="submit" :disabled="submitting">{{ submitting ? '작성 중...' : '작성' }}</button>
-          <button @click="cancel" :disabled="submitting">취소</button>
+          <button type="submit" :disabled="submitting" class="btn btn-blue">
+            {{ submitting ? '작성 중...' : '작성' }}
+          </button>
+          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
         </footer>
       </Form>
     </Transition>

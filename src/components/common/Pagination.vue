@@ -1,24 +1,101 @@
 <template>
-  <nav class="pagination" aria-label="Pagination">
-    <ul>
-      <li>
-        <button class="first" :class="{ disable: isFirstPage }" :disabled="isFirstPage" @click="go(1)">처음</button>
+  <nav class="flex justify-center" aria-label="Page navigation">
+    <ul class="pagination">
+      <li
+        class="first page-item"
+        :class="{ disabled: isFirstPage }"
+        :disabled="isFirstPage"
+        @click="go(1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevrons-left-icon lucide-chevrons-left"
+        >
+          <path d="m11 17-5-5 5-5" />
+          <path d="m18 17-5-5 5-5" />
+        </svg>
       </li>
-
-      <li>
-        <button class="prev" :class="{ disable: isFirstPage }" :disabled="isFirstPage" @click="go(currentPage - 1)">이전</button>
+      <li
+        class="prev page-item"
+        :class="{ disabled: isFirstPage }"
+        :disabled="isFirstPage"
+        @click="go(currentPage - 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevron-left-icon lucide-chevron-left"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
       </li>
-
-      <li v-for="p in pages" :key="p">
-        <button class="page" :class="{ active: p === currentPage }" :aria-current="p === currentPage ? 'page' : null" @click="go(p)">{{ p }}</button>
+      <template v-for="p in pages" :key="p">
+        <li
+          class="page page-item"
+          :class="{ active: p === currentPage }"
+          :aria-current="p === currentPage ? 'page' : null"
+          @click="go(p)"
+        >
+          {{ p }}
+        </li>
+      </template>
+      <li
+        class="next page-item"
+        :class="{ disabled: isLastPage }"
+        :disabled="isLastPage"
+        @click="go(currentPage + 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevron-right-icon lucide-chevron-right"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       </li>
-
-      <li>
-        <button class="next" :class="{ disable: isLastPage }" :disabled="isLastPage" @click="go(currentPage + 1)">다음</button>
-      </li>
-
-      <li>
-        <button class="last" :class="{ disable: isLastPage }" :disabled="isLastPage" @click="go(totalPages)">마지막</button>
+      <li
+        class="last page-item"
+        :class="{ disabled: isLastPage }"
+        :disabled="isLastPage"
+        @click="go(totalPages)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevrons-right-icon lucide-chevrons-right"
+        >
+          <path d="m6 17 5-5-5-5" />
+          <path d="m13 17 5-5-5-5" />
+        </svg>
       </li>
     </ul>
   </nav>

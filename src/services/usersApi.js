@@ -5,5 +5,6 @@ export const usersApi = {
 
   updateUser: (userName) => apiClient.patch('/user', { userName }),
 
-  changePassword: (password, newPassword) => apiClient.patch('/user/change-password', { password, newPassword }),
+  changePassword: (password, newPassword) =>
+    apiClient.patch('/user/change-password', { password, newPassword }),
 };

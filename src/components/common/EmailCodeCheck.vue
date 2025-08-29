@@ -1,6 +1,8 @@
 <template>
   <section class="flex h-screen flex-wrap place-content-center">
-    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+    <div
+      class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
+    >
       <div class="mb-6 flex flex-col items-center space-y-4">
         <h2 class="text-2xl font-bold">
           <slot name="title"></slot>
@@ -9,7 +11,14 @@
 
       <div class="mb-3">
         <label class="mb-1 block text-sm" for="check-email">이메일</label>
-        <input type="text" class="form-control form-control-glass w-full rounded-lg" id="check-email" v-model="email" autocomplete="off" readonly />
+        <input
+          type="text"
+          class="form-control form-control-glass w-full rounded-lg"
+          id="check-email"
+          v-model="email"
+          autocomplete="off"
+          readonly
+        />
       </div>
 
       <div class="mb-5">
@@ -33,7 +42,13 @@
         </div>
       </div>
 
-      <button class="btn btn-glass mt-2 w-full rounded-lg" @click="onVerify" :disabled="!isComplete">인증</button>
+      <button
+        class="btn btn-glass mt-2 w-full rounded-lg"
+        @click="onVerify"
+        :disabled="!isComplete"
+      >
+        인증
+      </button>
     </div>
   </section>
 </template>

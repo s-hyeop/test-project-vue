@@ -5,16 +5,43 @@
     </Transition>
 
     <Transition name="pop">
-      <div v-if="open" class="modal-wrap" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="contentId" ref="dialogRef" @keydown.esc.stop.prevent="onEsc" @click.stop tabindex="-1">
+      <div
+        v-if="open"
+        class="modal-wrap"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+        ref="dialogRef"
+        @keydown.esc.stop.prevent="onEsc"
+        @click.stop
+        tabindex="-1"
+      >
         <header class="modal-header">
           <div class="modal-title">TODO</div>
-          <button @click="close">X</button>
+          <button @click="close" class="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x-icon lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </header>
         <section class="modal-body" :id="contentId">
           {{ todo }}
         </section>
         <footer class="modal-footer">
-          <button @click="cancel">닫기</button>
+          <button @click="cancel" class="btn text-inverse">닫기</button>
         </footer>
       </div>
     </Transition>

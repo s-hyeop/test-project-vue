@@ -1,6 +1,8 @@
 <template>
   <section class="flex h-screen flex-wrap place-content-center">
-    <div class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8">
+    <div
+      class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
+    >
       <div class="mb-6 flex flex-col items-center space-y-4">
         <h2 class="text-2xl font-bold">TODO</h2>
       </div>
@@ -8,7 +10,16 @@
       <Form @submit="onSubmit" @invalid-submit="onInvalid">
         <div class="mb-5">
           <label class="mb-1 block text-sm" for="auth-email">이메일</label>
-          <Field type="text" class="form-control form-control-glass w-full rounded-lg" id="auth-email" name="email" v-model="email" rules="rule-email" placeholder="email@example.com" autocomplete="off" />
+          <Field
+            type="text"
+            class="form-control form-control-glass w-full rounded-lg"
+            id="auth-email"
+            name="email"
+            v-model="email"
+            rules="rule-email"
+            placeholder="email@example.com"
+            autocomplete="off"
+          />
           <ErrorMessage class="invalid-feedback" name="email" />
         </div>
 
@@ -17,7 +28,13 @@
     </div>
   </section>
 
-  <base-modal v-if="showModal" v-model="showModal" :btnConfirmText="'회원가입'" :btnCancelText="'취소'" @confirm="onSignupConfirm">
+  <base-modal
+    v-if="showModal"
+    v-model="showModal"
+    :btnConfirmText="'회원가입'"
+    :btnCancelText="'취소'"
+    @confirm="onSignupConfirm"
+  >
     <template #title>알림</template>
     <template #content>[{{ email }}]해당 계정으로 회원가입을 하시겠습니까?</template>
   </base-modal>

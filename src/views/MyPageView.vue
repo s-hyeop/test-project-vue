@@ -14,13 +14,26 @@
   </template>
 
   <!-- update password modal -->
-  <ChangePasswordModal v-if="showChangePasswordModal" v-model="showChangePasswordModal" @confirm="refresh" />
+  <ChangePasswordModal
+    v-if="showChangePasswordModal"
+    v-model="showChangePasswordModal"
+    @confirm="refresh"
+  />
 
   <!-- update user detail modal -->
-  <UpdateUserDetailModal v-if="showUpdateUserDetailModal" v-model="showUpdateUserDetailModal" @confirm="refresh" />
+  <UpdateUserDetailModal
+    v-if="showUpdateUserDetailModal"
+    v-model="showUpdateUserDetailModal"
+    @confirm="refresh"
+  />
 
   <!-- remtoe logout modal -->
-  <RemoteLogoutModal v-if="showRemoteLogoutModal" v-model="showRemoteLogoutModal" @confirm="refresh" :id="activeId" />
+  <RemoteLogoutModal
+    v-if="showRemoteLogoutModal"
+    v-model="showRemoteLogoutModal"
+    @confirm="refresh"
+    :id="activeId"
+  />
 </template>
 
 <script setup>

@@ -1,4 +1,23 @@
 @layer components {
+  /* Transitions */
+  .fade-enter-active,
+  .fade-leave-active {
+    @apply transition-opacity duration-[180ms] ease-in-out;
+  }
+  .fade-enter-from,
+  .fade-leave-to {
+    @apply opacity-0;
+  }
+
+  .pop-enter-active,
+  .pop-leave-active {
+    @apply transition duration-[180ms] ease-in-out;
+  }
+  .pop-enter-from,
+  .pop-leave-to {
+    @apply translate-y-[6px] scale-[.98] opacity-0;
+  }
+
   /* Background */
   .bg-orbs {
     @apply pointer-events-none fixed inset-0 -z-10 overflow-hidden;
@@ -143,6 +162,54 @@
     &.readonly,
     &:readonly {
       @apply text-tertiary border-none bg-red-900/40;
+    }
+  }
+
+  /* Pagination */
+  .pagination {
+    @apply inline-flex gap-1.5 text-center text-sm;
+
+    .page-item {
+      @apply text-inverse cursor-pointer rounded-md border border-gray-600 bg-gray-800 px-2 py-1 hover:bg-gray-700 md:px-2.5;
+    }
+
+    .page-item.active {
+      @apply text-inverse cursor-default border-violet-300 bg-violet-300 *:cursor-default;
+    }
+
+    .page-item.disabled {
+      @apply text-secondary cursor-not-allowed bg-gray-800 *:cursor-not-allowed hover:bg-gray-800;
+    }
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    @apply fixed inset-0 z-[999] bg-black/45;
+  }
+
+  .modal-wrap {
+    @apply fixed inset-0 z-[1000] block place-items-center self-center outline-none;
+
+    & > .modal-header,
+    & > .modal-body,
+    & > .modal-footer {
+      @apply w-full max-w-[min(640px,calc(100vw-32px))] bg-gray-800 text-gray-100;
+    }
+
+    .modal-header {
+      @apply flex items-center justify-between rounded-t-2xl border-b border-gray-700 px-5 py-4;
+    }
+
+    .modal-title {
+      @apply m-0 text-lg font-bold;
+    }
+
+    .modal-body {
+      @apply p-5 leading-relaxed;
+    }
+
+    .modal-footer {
+      @apply flex justify-end gap-[10px] rounded-b-2xl border-t border-gray-700 px-5 py-[14px];
     }
   }
 }

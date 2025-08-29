@@ -2,7 +2,12 @@
   <div @click="$emit('detail')">
     <div>TodoItem</div>
     <div>{{ todo }}</div>
-    <input type="checkbox" :checked="!!todo.completedAt" @click.stop="" @change="$emit('toggle', !todo.completedAt)" />
+    <input
+      type="checkbox"
+      :checked="!!todo.completedAt"
+      @click.stop=""
+      @change="$emit('toggle', !todo.completedAt)"
+    />
     <button @click.stop="$emit('update')">수정</button>
     <button @click.stop="$emit('delete')">삭제</button>
   </div>
