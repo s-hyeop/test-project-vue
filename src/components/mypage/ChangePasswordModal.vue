@@ -21,13 +21,30 @@
       >
         <header class="modal-header">
           <div class="modal-title">비밀번호 재설정</div>
-          <button @click="close">X</button>
+          <button @click="close" class="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x-icon lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </header>
         <section class="modal-body" :id="contentId">
-          <div>
-            <label for="password">현재 비밀번호</label>
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="password">현재 비밀번호</label>
             <Field
               type="password"
+              class="form-control form-control-glass w-full rounded-lg"
               id="password"
               name="password"
               v-model="password"
@@ -35,10 +52,11 @@
               autocomplete="off"
             />
           </div>
-          <div>
-            <label for="newPassword">새로운 비밀번호</label>
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="newPassword">새로운 비밀번호</label>
             <Field
               type="password"
+              class="form-control form-control-glass w-full rounded-lg"
               id="newPassword"
               name="newPassword"
               v-model="newPassword"
@@ -46,12 +64,13 @@
               placeholder="새로운 비밀번호를 입력해 주세요."
               autocomplete="off"
             />
-            <ErrorMessage name="newPassword" />
+            <ErrorMessage class="invalid-feedback" name="newPassword" />
           </div>
-          <div>
-            <label for="confirmPassword">비밀번호 확인</label>
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="confirmPassword">비밀번호 확인</label>
             <Field
               type="password"
+              class="form-control form-control-glass w-full rounded-lg"
               id="confirmPassword"
               name="confirmPassword"
               v-model="confirmPassword"
@@ -59,7 +78,7 @@
               placeholder="비밀번호를 다시 입력해 주세요."
               autocomplete="off"
             />
-            <ErrorMessage name="confirmPassword" />
+            <ErrorMessage class="invalid-feedback" name="confirmPassword" />
           </div>
         </section>
         <footer class="modal-footer">
@@ -148,86 +167,3 @@ onBeforeUnmount(() => {
   document.body.classList.remove('modal-scrren');
 });
 </script>
-
-<!-- <style scoped>
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 999;
-}
-
-.modal-wrap {
-  position: fixed;
-  inset: 0;
-  display: block;
-  align-self: anchor-center;
-  place-items: center;
-  z-index: 1000;
-  outline: none;
-}
-
-.modal-wrap > .modal-header,
-.modal-wrap > .modal-body,
-.modal-wrap > .modal-footer {
-  max-width: min(640px, calc(100vw - 32px));
-  background: #fff;
-  color: #111827; /* gray-900 */
-}
-
-.modal-wrap .modal-header,
-.modal-wrap .modal-body,
-.modal-wrap .modal-footer {
-  width: 100%;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-radius: 12px 12px 0 0;
-  border-bottom: 1px solid #e5e7eb; /* gray-200 */
-}
-.modal-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.modal-body {
-  padding: 20px;
-  line-height: 1.6;
-}
-
-.modal-footer {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  padding: 14px 20px;
-  border-top: 1px solid #e5e7eb;
-  border-radius: 0 0 12px 12px;
-}
-
-/* Transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.18s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.pop-enter-active,
-.pop-leave-active {
-  transition:
-    transform 0.18s ease,
-    opacity 0.18s ease;
-}
-.pop-enter-from,
-.pop-leave-to {
-  transform: translateY(6px) scale(0.98);
-  opacity: 0;
-}
-</style> -->
