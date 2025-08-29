@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -206,4 +206,4 @@ onBeforeUnmount(() => {
   transform: translateY(6px) scale(0.98);
   opacity: 0;
 }
-</style>
+</style> -->

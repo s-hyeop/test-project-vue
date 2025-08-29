@@ -132,7 +132,8 @@
   /* text */
   .form-control[type='email'],
   .form-control[type='text'],
-  .form-control[type='password'] {
+  .form-control[type='password'],
+  .form-control[type='date'] {
     /* border */
     @apply rounded border border-gray-300 focus-within:border-gray-500 hover:border-gray-400 focus:ring-0 focus:outline-none;
 
@@ -162,6 +163,98 @@
     &.readonly,
     &:readonly {
       @apply text-tertiary border-none bg-red-900/40;
+    }
+  }
+
+  .input-text-group {
+    @apply flex w-full items-center overflow-hidden rounded;
+
+    /* backbround */
+    @apply bg-transparent;
+
+    /* border */
+    @apply border border-gray-300 focus-within:border-gray-500 hover:border-gray-400 focus:ring-0 focus:outline-none;
+
+    /* success */
+    @apply [&&.success]:ring-2 [&&.success]:ring-green-300;
+
+    /* failure */
+    @apply [&&.failure]:ring-2 [&&.failure]:ring-red-300;
+
+    .input-text {
+      @apply placeholder:text-tertiary text-inverse min-w-0 flex-1 bg-transparent px-2.5 py-2 text-base outline-none;
+    }
+
+    &.input-group-sm > .input-text {
+      @apply px-2 py-1 text-sm;
+    }
+
+    &.input-group-lg > .input-text {
+      @apply px-2.5 py-3 text-lg;
+    }
+  }
+
+  /* textarea */
+  .form-textarea {
+    @apply block w-full resize-none rounded p-2.5;
+
+    /* text */
+    @apply placeholder:text-tertiary text-default text-sm;
+
+    /* background */
+    @apply bg-transparent;
+
+    /* border */
+    @apply border border-gray-300 focus-within:border-gray-500 hover:border-gray-400 focus:ring-0 focus:outline-none;
+
+    &.form-textarea-glass {
+      @apply text-inverse border-none bg-white/20 placeholder-white/50 focus:outline-none;
+    }
+
+    /* success */
+    @apply [&&.success]:ring-2 [&&.success]:ring-green-300;
+
+    /* failure */
+    @apply [&&.failure]:ring-2 [&&.failure]:ring-red-300;
+
+    /* disabled, readonly */
+    &.disabled,
+    &:disabled,
+    &.readonly,
+    &:readonly {
+      @apply text-tertiary border-none bg-red-900/40;
+    }
+  }
+
+  /* select */
+  .form-select {
+    @apply flex w-full appearance-none items-center overflow-hidden rounded bg-transparent px-2.5 py-2;
+
+    /* text */
+    @apply placeholder:text-tertiary text-inverse text-base;
+
+    /* background */
+    @apply bg-transparent;
+
+    /* border */
+    @apply border border-gray-300 focus-within:border-gray-500 hover:border-gray-400 focus:ring-0 focus:outline-none;
+
+    &.form-select-sm {
+      @apply px-2 py-1 text-sm;
+    }
+
+    &.form-select-lg {
+      @apply px-2.5 py-3 text-lg;
+    }
+
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1em 1em;
+    print-color-adjust: exact;
+
+    option {
+      @apply bg-gray-700;
     }
   }
 

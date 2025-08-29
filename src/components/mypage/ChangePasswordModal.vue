@@ -63,10 +63,10 @@
           </div>
         </section>
         <footer class="modal-footer">
-          <button type="submit" :disabled="submitting">
+          <button type="submit" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '비밀번호 변경 중...' : '비밀번호 변경' }}
           </button>
-          <button @click="cancel" :disabled="submitting">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
         </footer>
       </Form>
     </Transition>
@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -230,4 +230,4 @@ onBeforeUnmount(() => {
   transform: translateY(6px) scale(0.98);
   opacity: 0;
 }
-</style>
+</style> -->

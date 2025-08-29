@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-center" aria-label="Page navigation">
+  <nav class="mt-5 flex justify-center" aria-label="Page navigation">
     <ul class="pagination">
       <li
         class="first page-item"

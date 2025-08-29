@@ -1,47 +1,98 @@
 <template>
-  <div>TodosView</div>
-  <div>
-    <div>
-      <span>{{ total }}개</span>
-    </div>
-    <div>
-      <select v-model="filter.size">
-        <option value="10">10개</option>
-        <option value="20">20개</option>
-        <option value="30">30개</option>
-        <option value="40">40개</option>
-        <option value="50">50개</option>
-      </select>
-      <select v-model="filter.status">
-        <option value="">모두</option>
-        <option value="complete">완료</option>
-        <option value="incomplete">미완료</option>
-      </select>
-      <select v-model="filter.searchType">
-        <option value="title">제목</option>
-        <option value="content">내용</option>
-      </select>
-      <input type="text" v-model="filter.keyword" placeholder="검색어를 입력하세요." />
-      <button @click="refresh">검색</button>
-    </div>
+  <section class="container-lg flex h-screen flex-wrap">
+    <div class="w-full px-4 py-4 md:px-6">
+      <form class="mb-2 flex w-full flex-col gap-x-2 sm:flex-row" @submit.prevent="refresh">
+        <select v-model="filter.searchType" class="form-select w-25">
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+        </select>
 
-    <div>
-      <TodoItem
-        v-for="item in todos"
-        :key="item.todoId"
-        :todo="item"
-        @detail="onDetail(item.todoId)"
-        @toggle="onToggle(item.todoId, $event)"
-        @update="onUpdate(item.todoId)"
-        @delete="onDelete(item.todoId)"
-      />
+        <div class="input-text-group">
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            class="input-text"
+            aria-label="Search query input"
+            v-model="filter.keyword"
+          />
+          <button
+            type="submit"
+            class="inline-flex cursor-pointer px-3 py-1.5"
+            aria-label="Submit search"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="text-secondary lucide-search size-5 hover:text-violet-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m21 21-4.34-4.34" />
+              <circle cx="11" cy="11" r="8" />
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <div class="mb-2 flex items-center justify-between">
+        <span>총 {{ total }}개</span>
+
+        <select v-model="filter.size" class="form-select form-select-sm w-25">
+          <option value="10">10개</option>
+          <option value="20">20개</option>
+          <option value="30">30개</option>
+          <option value="40">40개</option>
+          <option value="50">50개</option>
+        </select>
+      </div>
+
+      <div>
+        <TodoItem
+          v-for="item in todos"
+          :key="item.todoId"
+          :todo="item"
+          @detail="onDetail(item.todoId)"
+          @toggle="onToggle(item.todoId, $event)"
+          @update="onUpdate(item.todoId)"
+          @delete="onDelete(item.todoId)"
+        />
+
+        <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
+      </div>
     </div>
+  </section>
 
-    <Pagination v-model:page="filter.page" :size="filter.size" :total="total" />
-
-    <!-- show create modal button -->
-    <button @click="onCreate">작성</button>
+  <!-- Right Icon -->
+  <div class="fixed right-3 bottom-22 flex flex-col gap-2 sm:right-6 sm:bottom-6">
+    <!-- Write Icon Button -->
+    <button
+      class="text-inverse flex size-10 cursor-pointer items-center justify-center rounded-full bg-violet-400 opacity-75 shadow-md transition-colors duration-300 hover:bg-violet-500 md:size-12"
+      @click="onCreate"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-pencil-line-icon lucide-pencil-line"
+      >
+        <path d="M13 21h8" />
+        <path d="m15 5 4 4" />
+        <path
+          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+        />
+      </svg>
+    </button>
   </div>
+
   <!-- detail modal -->
   <TodoDetailModal v-if="showDetailModal" v-model="showDetailModal" :id="activeId" />
 

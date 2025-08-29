@@ -25,10 +25,10 @@
           정말 해당 기기를 로그아웃 하시겠습니까?
         </section>
         <footer class="modal-footer">
-          <button @click="confirm" :disabled="submitting">
+          <button @click="confirm" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '로그아웃 중...' : '로그아웃' }}
           </button>
-          <button @click="cancel" :disabled="submitting">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
         </footer>
       </div>
     </Transition>
@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -187,4 +187,4 @@ onBeforeUnmount(() => {
   transform: translateY(6px) scale(0.98);
   opacity: 0;
 }
-</style>
+</style> -->

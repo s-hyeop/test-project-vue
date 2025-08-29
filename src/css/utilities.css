@@ -8,4 +8,20 @@
   .modal-scrren {
     @apply overflow-hidden;
   }
+
+  .container-sm {
+    @apply mx-auto w-full max-w-lg flex-1;
+  }
+
+  .container-md {
+    @apply mx-auto w-full max-w-3xl flex-1;
+  }
+
+  .container-lg {
+    @apply mx-auto w-full max-w-5xl flex-1;
+  }
+
+  .container-xl {
+    @apply mx-auto w-full max-w-7xl flex-1;
+  }
 }

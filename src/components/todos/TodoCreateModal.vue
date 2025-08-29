@@ -40,10 +40,11 @@
           </button>
         </header>
         <section class="modal-body" :id="contentId">
-          <div>
-            <label for="todoTitle">제목</label>
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="todoTitle">제목</label>
             <Field
               type="text"
+              class="form-control form-control-glass w-full rounded-lg"
               id="todoTitle"
               name="todoTitle"
               v-model="createObj.title"
@@ -51,12 +52,14 @@
               placeholder="제목을 입력해 주세요."
               autocomplete="off"
             />
-            <ErrorMessage name="todoTitle" />
+            <ErrorMessage class="invalid-feedback" name="todoTitle" />
           </div>
-          <div>
-            <label for="todoContent">내용</label>
+
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="todoContent">내용</label>
             <Field
               as="textarea"
+              class="form-textarea form-textarea-glass w-full rounded-lg"
               id="todoContent"
               name="todoContent"
               v-model="createObj.content"
@@ -64,12 +67,14 @@
               placeholder="내용을 입력해 주세요."
               autocomplete="off"
             />
-            <ErrorMessage name="todoContent" />
+            <ErrorMessage class="invalid-feedback" name="todoContent" />
           </div>
-          <div>
-            <label for="todoDueAt">마감일</label>
+
+          <div class="mb-3">
+            <label class="mb-1 block text-sm" for="todoDueAt">마감일</label>
             <Field
               type="date"
+              class="form-control form-control-glass w-full rounded-lg"
               id="todoDueAt"
               name="todoDueAt"
               v-model="createObj.dueAt"
@@ -77,51 +82,44 @@
               placeholder="마감일을 선택해 주세요."
               autocomplete="off"
             />
-            <ErrorMessage name="todoDueAt" />
+            <ErrorMessage class="invalid-feedback" name="todoDueAt" />
           </div>
-          <div>
-            <label for="todoColorRed">색상</label>
-            <Field
-              type="radio"
-              id="todoColorRed"
-              name="todoColor"
-              value="red"
-              v-model="createObj.color"
-              rules="rule-todoColor"
-            />
-            <Field
-              type="radio"
-              id="todoColorRlue"
-              name="todoColor"
-              value="blue"
-              v-model="createObj.color"
-              rules="rule-todoColor"
-            />
-            <Field
-              type="radio"
-              id="todoColorRreen"
-              name="todoColor"
-              value="green"
-              v-model="createObj.color"
-              rules="rule-todoColor"
-            />
-            <Field
-              type="radio"
-              id="todoColorRellow"
-              name="todoColor"
-              value="yellow"
-              v-model="createObj.color"
-              rules="rule-todoColor"
-            />
-            <Field
-              type="radio"
-              id="todoColorRurple"
-              name="todoColor"
-              value="purple"
-              v-model="createObj.color"
-              rules="rule-todoColor"
-            />
-            <ErrorMessage name="todoColor" />
+
+          <div class="mb-3">
+            <label class="mb-1 block text-sm">색상</label>
+
+            <div class="flex space-x-3">
+              <label v-for="color in colors" :key="color.value" class="relative cursor-pointer">
+                <Field
+                  type="radio"
+                  name="todoColor"
+                  v-model="createObj.color"
+                  :value="color.value"
+                  rules="rule-todoColor"
+                  class="sr-only"
+                />
+                <div
+                  class="h-8 w-8 rounded-full border-2 transition-all"
+                  :class="[
+                    color.class,
+                    createObj.color === color.value ? 'ring-2 ring-gray-400 ring-offset-2' : '',
+                  ]"
+                ></div>
+                <div
+                  v-if="createObj.color === color.value"
+                  class="absolute inset-0 flex items-center justify-center"
+                >
+                  <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </label>
+            </div>
+            <ErrorMessage class="invalid-feedback" name="todoColor" />
           </div>
         </section>
         <footer class="modal-footer">
@@ -148,6 +146,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'confirm']);
 
 // ==================================================
+
+const colors = [
+  { value: 'red', class: 'bg-red-400/75 border-none' },
+  { value: 'blue', class: 'bg-blue-400/75 border-none' },
+  { value: 'green', class: 'bg-green-400/75 border-none' },
+  { value: 'yellow', class: 'bg-yellow-400/75 border-none' },
+  { value: 'purple', class: 'bg-purple-400/75 border-none' },
+];
 
 const titleId = `modal-title-${Math.random().toString(36).slice(2)}`;
 const contentId = `modal-content-${Math.random().toString(36).slice(2)}`;
@@ -209,86 +215,3 @@ onBeforeUnmount(() => {
   document.body.classList.remove('modal-scrren');
 });
 </script>
-
-<style scoped>
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 999;
-}
-
-.modal-wrap {
-  position: fixed;
-  inset: 0;
-  display: block;
-  align-self: anchor-center;
-  place-items: center;
-  z-index: 1000;
-  outline: none;
-}
-
-.modal-wrap > .modal-header,
-.modal-wrap > .modal-body,
-.modal-wrap > .modal-footer {
-  max-width: min(640px, calc(100vw - 32px));
-  background: #fff;
-  color: #111827; /* gray-900 */
-}
-
-.modal-wrap .modal-header,
-.modal-wrap .modal-body,
-.modal-wrap .modal-footer {
-  width: 100%;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-radius: 12px 12px 0 0;
-  border-bottom: 1px solid #e5e7eb; /* gray-200 */
-}
-.modal-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.modal-body {
-  padding: 20px;
-  line-height: 1.6;
-}
-
-.modal-footer {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  padding: 14px 20px;
-  border-top: 1px solid #e5e7eb;
-  border-radius: 0 0 12px 12px;
-}
-
-/* Transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.18s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.pop-enter-active,
-.pop-leave-active {
-  transition:
-    transform 0.18s ease,
-    opacity 0.18s ease;
-}
-.pop-enter-from,
-.pop-leave-to {
-  transform: translateY(6px) scale(0.98);
-  opacity: 0;
-}
-</style>
