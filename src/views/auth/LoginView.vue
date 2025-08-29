@@ -25,7 +25,7 @@
           <div class="mb-1 flex items-center justify-between">
             <label class="block text-sm" for="login-password">비밀번호</label>
             <p
-              class="text-inverse/70 block text-sm hover:cursor-pointer hover:underline"
+              class="block text-sm text-white/70 hover:cursor-pointer hover:underline"
               @click="onResetPassword"
             >
               비밀번호 재설정

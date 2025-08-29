@@ -59,7 +59,7 @@
           <button v-if="showConfirm" @click="confirm" class="btn btn-blue">
             {{ btnConfirmText }}
           </button>
-          <button v-if="showCancel" @click="cancel" class="btn text-inverse">
+          <button v-if="showCancel" @click="cancel" class="btn text-white">
             {{ btnCancelText }}
           </button>
         </footer>

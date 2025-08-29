@@ -126,7 +126,7 @@
           <button type="submit" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '작성 중...' : '작성' }}
           </button>
-          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-white">취소</button>
         </footer>
       </Form>
     </Transition>

@@ -42,7 +42,7 @@
           <button @click="confirm" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '삭제 중...' : '삭제' }}
           </button>
-          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-white">취소</button>
         </footer>
       </div>
     </Transition>

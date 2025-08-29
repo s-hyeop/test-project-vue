@@ -1,9 +1,4 @@
 @theme {
-  --color-default: var(--color-gray-900);
-  --color-secondary: var(--color-gray-500);
-  --color-tertiary: var(--color-gray-300);
-  --color-inverse: var(--color-white);
-
   --animate-gradient-bg: gradient-bg 5s ease infinite;
 
   @keyframes gradient-bg {
@@ -15,6 +10,24 @@
     }
     100% {
       background-position: 0% 50%;
+    }
+  }
+
+  @keyframes orb-drift {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    25% {
+      transform: translate(8px, -6px) scale(1.02);
+    }
+    50% {
+      transform: translate(14px, 6px) scale(0.99);
+    }
+    75% {
+      transform: translate(-6px, 10px) scale(1.015);
+    }
+    100% {
+      transform: translate(-10px, -8px) scale(1);
     }
   }
 }

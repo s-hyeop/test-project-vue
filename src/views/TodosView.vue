@@ -28,7 +28,7 @@
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="text-secondary lucide-search size-5 hover:text-violet-400"
+              class="lucide-search size-5 text-gray-500 hover:text-violet-400"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -79,7 +79,7 @@
   <div class="fixed right-3 bottom-22 flex flex-col gap-2 sm:right-6 sm:bottom-6">
     <!-- Write Icon Button -->
     <button
-      class="text-inverse flex size-10 cursor-pointer items-center justify-center rounded-full bg-violet-400 opacity-75 shadow-md transition-colors duration-300 hover:bg-violet-500 md:size-12"
+      class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-violet-400 text-white opacity-75 shadow-md transition-colors duration-300 hover:bg-violet-500 md:size-12"
       @click="onCreate"
     >
       <svg

@@ -41,7 +41,7 @@
       <div
         class="flex flex-col gap-3 border-b border-gray-900/50 px-2 pt-2 pb-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <h2 class="text-inverse truncate text-base font-semibold">회원 프로필</h2>
+        <h2 class="truncate text-base font-semibold text-white">회원 프로필</h2>
 
         <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <button type="button" class="btn btn-sm btn-glass" @click="onUpdateUserDetail">
@@ -55,18 +55,18 @@
 
       <div class="px-2 pt-4 pb-2">
         <dl class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
-          <dt class="text-tertiary text-sm font-medium">이메일</dt>
-          <dd class="text-inversegray-100 text-sm break-words sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-300">이메일</dt>
+          <dd class="text-whitegray-100 text-sm break-words sm:col-span-2">
             {{ userObj.email }}
           </dd>
 
-          <dt class="text-tertiary text-sm font-medium">이름</dt>
-          <dd class="text-inversegray-100 text-sm sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-300">이름</dt>
+          <dd class="text-whitegray-100 text-sm sm:col-span-2">
             {{ userObj.userName }}
           </dd>
 
-          <dt class="text-tertiary text-sm font-medium">가입일</dt>
-          <dd class="text-inversegray-100 text-sm sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-300">가입일</dt>
+          <dd class="text-whitegray-100 text-sm sm:col-span-2">
             {{ formatDateTime(userObj.createdAt) }}
           </dd>
         </dl>
@@ -81,7 +81,7 @@
       <div
         class="flex flex-col gap-3 border-b border-gray-900/50 px-2 pt-2 pb-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <h2 class="text-inverse truncate text-base font-semibold">접속 기기 정보</h2>
+        <h2 class="truncate text-base font-semibold text-white">접속 기기 정보</h2>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y-1 divide-gray-900">

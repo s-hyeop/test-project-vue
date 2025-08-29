@@ -41,7 +41,7 @@
           {{ todo }}
         </section>
         <footer class="modal-footer">
-          <button @click="cancel" class="btn text-inverse">닫기</button>
+          <button @click="cancel" class="btn text-white">닫기</button>
         </footer>
       </div>
     </Transition>

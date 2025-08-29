@@ -44,7 +44,7 @@
           <button @click="confirm" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '로그아웃 중...' : '로그아웃' }}
           </button>
-          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-white">취소</button>
         </footer>
       </div>
     </Transition>

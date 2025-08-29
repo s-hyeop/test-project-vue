@@ -141,7 +141,7 @@
           <button type="submit" :disabled="submitting" class="btn btn-blue">
             {{ submitting ? '수정 중...' : '수정' }}
           </button>
-          <button @click="cancel" :disabled="submitting" class="btn text-inverse">취소</button>
+          <button @click="cancel" :disabled="submitting" class="btn text-white">취소</button>
         </footer>
       </Form>
     </Transition>
