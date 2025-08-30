@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/auth';
 import { createRouter, createWebHistory } from 'vue-router';
+import { toast } from '@/plugins/toast';
 
 // Routes
 const router = createRouter({
@@ -46,6 +47,13 @@ const router = createRouter({
       component: () => import('@/views/MyPageView.vue'),
       meta: { requiresAuth: true },
     },
+
+    // 404
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/NotFoundView.vue'),
+    },
   ],
 });
 
@@ -56,7 +64,8 @@ router.beforeEach((to) => {
   if (to.meta.requiresGuest && isAuthed) {
     return { name: 'home' };
   } else if (to.meta.requiresAuth && !isAuthed) {
-    return { name: 'auth' };
+    toast.info('로그인을 먼저 진행해 주세요.');
+    return { name: 'email-check', query: { r: to.fullPath } };
   }
 });
 

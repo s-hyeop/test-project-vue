@@ -1,7 +1,7 @@
 <template>
   <section class="flex h-screen flex-wrap place-content-center">
     <div
-      class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
+      class="w-full max-w-sm rounded-2xl border-1 border-gray-100/15 bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
     >
       <div class="mb-6 flex flex-col items-center space-y-4">
         <h2 class="text-2xl font-bold">TODO</h2>

@@ -1,7 +1,7 @@
 <template>
   <section class="flex h-screen flex-wrap place-content-center">
     <div
-      class="w-full max-w-sm rounded-2xl bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
+      class="w-full max-w-sm rounded-2xl border-1 border-gray-100/15 bg-black/30 px-4 py-8 shadow-xs backdrop-blur-lg md:px-8"
     >
       <div class="mb-6 flex flex-col items-center space-y-4">
         <h2 class="text-2xl font-bold">로그인</h2>
@@ -108,7 +108,10 @@ const onResetPasswordConfirm = async () => {
   try {
     await authApi.sendResetPasswordCode(email.value);
     toast.success(`인증코드가 ${email.value}로 전송되었습니다.`);
-    router.push({ name: 'reset-password', query: { email: email.value } });
+
+    const rQ = Array.isArray(route.query.r) ? route.query.r[0] : route.query.r;
+    const safe = typeof rQ === 'string' && rQ.startsWith('/');
+    await router.replace(safe ? rQ : { name: 'home' });
   } catch (e) {
     toast.error(e.message);
   } finally {
