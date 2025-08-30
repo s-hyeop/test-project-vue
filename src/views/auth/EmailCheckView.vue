@@ -42,13 +42,14 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { useAppStore } from '@/stores/app';
 import { authApi } from '@/services/authApi';
 import { toast } from '@/plugins/toast';
 import BaseModal from '@/components/common/BaseModal.vue';
 
+const route = useRoute();
 const router = useRouter();
 const appStore = useAppStore();
 
@@ -65,7 +66,7 @@ const onSubmit = async () => {
   try {
     const res = await authApi.checkEmailExist(email.value);
     if (res.data.exists) {
-      router.push({ name: 'login', query: { email: email.value } });
+      router.push({ name: 'login', query: { ...route.query, email: email.value } });
     } else {
       showModal.value = true;
     }
@@ -85,7 +86,7 @@ const onSignupConfirm = async () => {
   try {
     await authApi.sendSignupCode(email.value);
     toast.success(`인증코드가 ${email.value}로 전송되었습니다.`);
-    router.push({ name: 'signup', query: { email: email.value } });
+    router.push({ name: 'signup', query: { ...route.query, email: email.value } });
   } catch (e) {
     toast.error(e.message);
   } finally {

@@ -104,7 +104,7 @@ const onSubmit = async () => {
   try {
     await authApi.resetPassword(email.value, password.value, code.value);
     toast.success('비밀번호가 정상적으로 재설정되었습니다.');
-    router.push({ name: 'login', query: { email: email.value } });
+    router.push({ name: 'login', query: { ...route.query, email: email.value } });
   } catch (e) {
     toast.error(e.message);
   } finally {

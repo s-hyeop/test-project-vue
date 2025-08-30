@@ -120,7 +120,7 @@ const onSubmit = async () => {
   try {
     await authApi.signup(email.value, password.value, username.value, code.value);
     toast.success('회원가입 성공! 환영합니다!');
-    router.push({ name: 'login', query: { email: email.value } });
+    router.push({ name: 'login', query: { ...route.query, email: email.value } });
   } catch (e) {
     toast.error(e.message);
   } finally {
@@ -137,13 +137,13 @@ const onInvalid = () => {
 onBeforeMount(async () => {
   if (!route.query.email) {
     toast.warning('잘못된 접근입니다.');
-    router.push({ name: 'email-check' });
+    router.push({ name: 'email-check', query: { ...route.query } });
   }
 
   const { valid } = await validate(route.query.email, 'rule-email');
   if (!valid) {
     toast.warning('잘못된 접근입니다.');
-    router.push({ name: 'email-check' });
+    router.push({ name: 'email-check', query: { ...route.query } });
   }
 
   email.value = route.query.email;

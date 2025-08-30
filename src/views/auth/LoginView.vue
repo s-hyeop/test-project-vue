@@ -62,7 +62,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { Form, Field, ErrorMessage, validate } from 'vee-validate';
+import { Form, Field, validate } from 'vee-validate';
 import { useAppStore } from '@/stores/app';
 import { useAuthStore } from '@/stores/auth';
 import { authApi } from '@/services/authApi';
@@ -89,7 +89,10 @@ const onSubmit = async () => {
     const res = await authApi.login(email.value, password.value);
     authStore.setToken(res.data.token);
     toast.success('로그인 성공! 환영합니다!');
-    router.push({ name: 'home' });
+
+    const rQ = Array.isArray(route.query.r) ? route.query.r[0] : route.query.r;
+    const safe = typeof rQ === 'string' && rQ.startsWith('/');
+    await router.replace(safe ? rQ : { name: 'home' });
   } catch (e) {
     toast.error(e.message);
   } finally {
@@ -109,9 +112,7 @@ const onResetPasswordConfirm = async () => {
     await authApi.sendResetPasswordCode(email.value);
     toast.success(`인증코드가 ${email.value}로 전송되었습니다.`);
 
-    const rQ = Array.isArray(route.query.r) ? route.query.r[0] : route.query.r;
-    const safe = typeof rQ === 'string' && rQ.startsWith('/');
-    await router.replace(safe ? rQ : { name: 'home' });
+    router.push({ name: 'reset-password', query: { email: email.value } });
   } catch (e) {
     toast.error(e.message);
   } finally {
@@ -124,13 +125,13 @@ const onResetPasswordConfirm = async () => {
 onBeforeMount(async () => {
   if (!route.query.email) {
     toast.warning('잘못된 접근입니다.');
-    router.push({ name: 'email-check' });
+    router.push({ name: 'email-check', query: { ...route.query } });
   }
 
   const { valid } = await validate(route.query.email, 'rule-email');
   if (!valid) {
     toast.warning('잘못된 접근입니다.');
-    router.push({ name: 'email-check' });
+    router.push({ name: 'email-check', query: { ...route.query } });
   }
 
   email.value = route.query.email;
